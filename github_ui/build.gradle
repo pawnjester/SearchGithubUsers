@@ -64,6 +64,7 @@ dependencies {
             presentationDependencies.uiDependencies.appCompat,
             presentationDependencies.uiDependencies.liveData,
             presentationDependencies.uiDependencies.shimmer,
+            presentationDependencies.uiDependencies.glide,
 
             project(":core"),
             project(":domain"),

@@ -53,6 +53,10 @@ dependencies {
             uiDependencies.appCompat,
             uiDependencies.material,
             uiDependencies.androidLegacy,
+            remoteDependencies.retrofit,
+            remoteDependencies.retrofitConversion,
+            remoteDependencies.okHttpLoggingInterceptor,
+            remoteDependencies.okHttp,
 
             project(":github_ui"),
             project(":data"),

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.github_ui.databinding.ItemUsersBinding
 import com.example.github_ui.models.GithubUsersModel
 import com.example.github_ui.utils.OpenUserDetailsCallback
+import com.example.github_ui.utils.loadImage
 
 class UserViewHolder(
     private val binding: ItemUsersBinding,
@@ -14,7 +15,12 @@ class UserViewHolder(
 
     fun bind(item: GithubUsersModel) {
         item.run {
+            binding.imageUser.loadImage(avatarUrl)
+            binding.userName.text = login
 
+            binding.userLayout.setOnClickListener {
+                openUsersDetailsCallback.invoke(item)
+            }
         }
     }
 

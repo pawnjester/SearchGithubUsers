@@ -8,6 +8,6 @@ interface ApiService {
 
     @GET("users")
     suspend fun searchUsers(
-        @Query("q") q : String
+        @Query("q") query : String
     ) : GithubUsersResponse
 }

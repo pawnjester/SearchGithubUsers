@@ -40,6 +40,7 @@ ext {
     konveyorVersion = "1.0.3"
     gsonVersion = "2.8.6"
     okHttpVersion = "4.9.0"
+    glide = "4.11.0"
 
 
     roomDependencies = [
@@ -49,7 +50,7 @@ ext {
     ]
 
     remoteDependencies = [
-            gson                : "com.google.code.gson:gson:${gsonVersion}",
+            gson                    : "com.google.code.gson:gson:${gsonVersion}",
             retrofit                : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             retrofitConversion      : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
             okHttp                  : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
@@ -80,7 +81,8 @@ ext {
             androidLegacy     : "androidx.legacy:legacy-support-v4:${legacyVersion}",
             appCompat         : "androidx.appcompat:appcompat:${appCompatVersion}",
             liveData          : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
-            shimmer              : "com.facebook.shimmer:shimmer:$shimmerVersion"
+            shimmer           : "com.facebook.shimmer:shimmer:$shimmerVersion",
+            glide             : "com.github.bumptech.glide:glide:${glide}"
     ]
 
     testDependencies = [
@@ -100,6 +102,6 @@ ext {
             hiltTesting     : "com.google.dagger:hilt-android-testing:${daggerCompilerVersion}",
             mockitoKotlin   : "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockitoKotlinVersion}",
             mockito         : "org.mockito:mockito-core:${mockitoVersion}",
-            konveyor   : "com.github.vacxe:konveyor:${konveyorVersion}"
+            konveyor        : "com.github.vacxe:konveyor:${konveyorVersion}"
     ]
 }
