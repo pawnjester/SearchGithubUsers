@@ -39,6 +39,7 @@ ext {
     shimmerVersion = "0.5.0"
     konveyorVersion = "1.0.3"
     gsonVersion = "2.8.6"
+    okHttpVersion = "4.9.0"
 
 
     roomDependencies = [
@@ -48,7 +49,12 @@ ext {
     ]
 
     remoteDependencies = [
-            gson                : "com.google.code.gson:gson:${gsonVersion}"
+            gson                : "com.google.code.gson:gson:${gsonVersion}",
+            retrofit                : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitConversion      : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            okHttp                  : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
+
     ]
 
     appDependencies = [

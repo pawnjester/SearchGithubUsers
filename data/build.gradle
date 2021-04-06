@@ -10,4 +10,17 @@ java {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    def dataDependencies = rootProject.ext
+
+    implementation(
+            dataDependencies.appDependencies.kotlin,
+            dataDependencies.appDependencies.javax,
+            dataDependencies.appDependencies.coroutines,
+            dataDependencies.remoteDependencies.gson,
+
+            project(':domain')
+    )
 }
