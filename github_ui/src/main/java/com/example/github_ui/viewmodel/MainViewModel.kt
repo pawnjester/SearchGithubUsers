@@ -30,7 +30,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             searchUsers(query).map {
                 mapper.mapToModelList(it)
-            }.debounce(3000)
+            }
                 .collect {
                     _users.value = LatestUiState.Success(it)
                 }

@@ -25,6 +25,7 @@ interface NetworkModule {
                     chain.request().newBuilder()
                         .header("Content-Type", "application/json")
                         .header("Accept", "application/json")
+                        .header("Authorization", "token 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")
                         .build()
                 )
             }
