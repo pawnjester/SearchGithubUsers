@@ -18,7 +18,7 @@
             android:fitsSystemWindows="true"
             app:contentScrim="@android:color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:title="Recipe Detail"
+            app:title="User Detail"
             app:titleEnabled="false"
             app:toolbarId="@+id/toolbar">
 

@@ -16,7 +16,7 @@
     </style>
 
 
-        <style name="CardView.Recipe" parent="Widget.MaterialComponents.CardView">
+        <style name="CardView.User" parent="Widget.MaterialComponents.CardView">
 
             <item name="cardElevation">0dp</item>
             <item name="cardCornerRadius">0dp</item>
