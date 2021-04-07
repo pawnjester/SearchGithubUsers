@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -37,6 +39,15 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
+
+        binding.toolbar.menu?.get(0)?.setOnMenuItemClickListener {
+            viewModel.favoriteUser(userArgs.user)
+            return@setOnMenuItemClickListener true
+        }
+
         viewModel.setUserDetail(userArgs.user)
 
         observe(viewModel.user, ::init)
@@ -48,6 +59,17 @@ class DetailFragment : Fragment() {
         user?.let {
             binding.imgBackdrop.loadImage(it.avatarUrl)
             binding.userDetailName.text = it.login
+
+            if (it.isFavorite) {
+                binding.toolbar.menu?.get(0)?.icon =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_red_favorite)
+            } else {
+                binding.toolbar.menu?.get(0)?.icon =
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_baseline_favorite_border_24
+                    )
+            }
         }
     }
 

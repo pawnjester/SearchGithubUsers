@@ -24,4 +24,8 @@ class GithubUsersRepositoryImpl @Inject constructor(
             })
         }
     }
+
+    override suspend fun favoriteUser(user: GithubUser) {
+        usersCache.saveUser(mapper.mapToEntity(user))
+    }
 }

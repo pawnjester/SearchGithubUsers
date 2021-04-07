@@ -10,7 +10,8 @@ class RemoteNetworkModelMapper @Inject constructor() : RemoteModelMapper<GithubU
         return model.run {
             GithubUserEntity(
                 login,
-                avatar_url
+                avatar_url,
+                html_url
             )
         }
     }

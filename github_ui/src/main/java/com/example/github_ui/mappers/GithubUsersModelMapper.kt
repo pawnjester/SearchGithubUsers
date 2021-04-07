@@ -11,7 +11,9 @@ class GithubUsersModelMapper @Inject constructor(
         return domain.run {
             GithubUsersModel(
                 domain.login,
-                domain.avatarUrl
+                domain.avatarUrl,
+                domain.githubUrl,
+                domain.isFavorite
             )
         }
     }
@@ -20,7 +22,9 @@ class GithubUsersModelMapper @Inject constructor(
         return model.run {
             GithubUser(
                 model.login,
-                model.avatarUrl
+                model.avatarUrl,
+                model.githubUrl,
+                model.isFavorite
             )
         }
     }
