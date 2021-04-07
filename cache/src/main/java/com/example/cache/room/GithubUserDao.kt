@@ -18,5 +18,8 @@ interface GithubUserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun favoriteUser(user: GithubUsersCacheModel)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveUserList(users: List<GithubUsersCacheModel>)
+
 
 }

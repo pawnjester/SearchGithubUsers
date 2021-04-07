@@ -18,10 +18,20 @@ class GithubUsersRepositoryImpl @Inject constructor(
 ) : GithubUsersRepository {
     override fun searchUsers(query: String): Flow<List<GithubUser>> {
 
-        return flow {
-            emitAll(usersRemote.searchUsers(query).map {
-                mapper.mapFromEntityList(it)
-            })
+//        return flow {
+////            emitAll(usersRemote.searchUsers(query).map {
+////                mapper.mapFromEntityList(it)
+////            })
+//
+//        }
+        return usersCache.getUsers().map {
+//            if (it.isEmpty()) {
+                val users = usersRemote.searchUsers(query)
+                usersCache.saveUserList(users)
+                mapper.mapFromEntityList(users)
+//            } else {
+//                mapper.mapFromEntityList(it)
+//            }
         }
     }
 

@@ -22,9 +22,6 @@ class DetailViewModel @Inject constructor(
     private var _user = MutableLiveData<GithubUsersModel>()
     var user: LiveData<GithubUsersModel> = _user
 
-    private val _state = MutableLiveData<Boolean>()
-    val state: LiveData<Boolean> = _state
-
 
     fun setUserDetail(user: GithubUsersModel?) {
         user?.let {

@@ -68,7 +68,8 @@ ext {
             daggerXcompiler    : "com.google.dagger:hilt-android-compiler:${daggerCompilerVersion}",
             javax              : "javax.inject:javax.inject:${javaInjectVersion}",
             androidXViewModel  : "androidx.lifecycle:lifecycle-viewmodel-ktx:${androidLifecycleViewModel}",
-            coroutines         : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}"
+            coroutines         : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutinesVersion}",
+            coroutinesAndroid         : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutinesVersion}"
     ]
 
     uiDependencies = [

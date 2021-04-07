@@ -54,6 +54,8 @@ dependencies {
             presentationDependencies.appDependencies.daggerHiltViewModel,
             presentationDependencies.appDependencies.javax,
             presentationDependencies.appDependencies.androidXViewModel,
+            presentationDependencies.appDependencies.coroutines,
+            presentationDependencies.appDependencies.coroutinesAndroid,
 
             presentationDependencies.uiDependencies.material,
             presentationDependencies.uiDependencies.navigationFragment,
