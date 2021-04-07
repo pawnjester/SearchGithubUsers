@@ -8,4 +8,6 @@ interface GithubUsersRepository {
     fun searchUsers(query: String) : Flow<List<GithubUser>>
 
     suspend fun favoriteUser(user: GithubUser)
+
+    fun getFavoriteUsers() : Flow<List<GithubUser>>
 }

@@ -4,6 +4,8 @@ import com.example.cache.mappers.GithubUsersCacheModelMapper
 import com.example.cache.room.GithubUserDao
 import com.example.data.contracts.cache.GithubCache
 import com.example.data.models.GithubUserEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GithubUsersCacheImpl @Inject constructor(
@@ -14,6 +16,14 @@ class GithubUsersCacheImpl @Inject constructor(
 
     override suspend fun saveUser(user: GithubUserEntity) {
         dao.favoriteUser(mapper.mapToModel(user))
+    }
+
+    override fun getUsers(): Flow<List<GithubUserEntity>> {
+        val models = dao.getUsersFromCache()
+
+        return models.map {
+            mapper.mapToEntityList(it)
+        }
     }
 
 

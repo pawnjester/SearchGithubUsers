@@ -56,7 +56,7 @@ class SearchFragment : Fragment() {
         }
 
         usersAdapter.openUsersCallback = {
-            val action = SearchFragmentDirections.actionSearchFragmentToDetailFragment(it)
+            val action = SearchFragmentDirections.actionNavigationHomeToNavigationFavorite(it)
             findNavController().navigate(action)
         }
 

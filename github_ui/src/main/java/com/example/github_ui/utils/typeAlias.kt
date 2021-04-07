@@ -3,4 +3,4 @@ package com.example.github_ui.utils
 import com.example.github_ui.models.GithubUsersModel
 
 typealias OpenUserDetailsCallback = (GithubUsersModel) -> Unit
-//typealias SortOptionCallback = (SortOption) -> Unit
+typealias FavoriteUserCallback = (GithubUsersModel) -> Unit

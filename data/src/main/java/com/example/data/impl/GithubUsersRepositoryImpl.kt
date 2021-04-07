@@ -28,4 +28,12 @@ class GithubUsersRepositoryImpl @Inject constructor(
     override suspend fun favoriteUser(user: GithubUser) {
         usersCache.saveUser(mapper.mapToEntity(user))
     }
+
+    override fun getFavoriteUsers(): Flow<List<GithubUser>> {
+        return flow {
+            emitAll(usersCache.getUsers().map {
+                mapper.mapFromEntityList(it)
+            })
+        }
+    }
 }

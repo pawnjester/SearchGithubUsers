@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GithubUserDao {
 
-    @Query("select * from $TABLE_NAME")
+    @Query("select * from $TABLE_NAME where isFavorite")
     fun getUsersFromCache(): Flow<List<GithubUsersCacheModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
