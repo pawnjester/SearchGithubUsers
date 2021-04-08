@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface GithubCache {
 
     suspend fun saveUser(user: GithubUserEntity)
+    suspend fun removeUser(user: GithubUserEntity)
 
     suspend fun saveUserList(user: List<GithubUserEntity>)
 

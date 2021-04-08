@@ -1,9 +1,6 @@
 package com.example.cache.room
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.cache.models.GithubUsersCacheModel
 import com.example.cache.models.GithubUsersCacheModel.Companion.TABLE_NAME
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +17,9 @@ interface GithubUserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveUserList(users: List<GithubUsersCacheModel>)
+
+    @Delete
+    fun removeUserFromFavorite(user: GithubUsersCacheModel)
 
     @Query("SELECT EXISTS (SELECT 1 FROM $TABLE_NAME WHERE id = :id AND isFavorite)")
     fun checkIfUserIsFavorite(id: Int) : Boolean
