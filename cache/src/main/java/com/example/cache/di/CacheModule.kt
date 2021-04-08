@@ -16,7 +16,7 @@ object CacheModule {
 
     @[Provides Singleton]
     fun providesDatabase(@ApplicationContext context: Context): GithubUsersDatabase {
-        return GithubUsersDatabase.build(context)
+        return GithubUsersDatabase.getInstance(context)
     }
 
     @[Provides Singleton]

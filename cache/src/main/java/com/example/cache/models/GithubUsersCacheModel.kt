@@ -8,6 +8,7 @@ import com.example.cache.models.GithubUsersCacheModel.Companion.TABLE_NAME
 @Entity(tableName = TABLE_NAME)
 data class GithubUsersCacheModel(
     @PrimaryKey
+    val id: Int,
     val login: String,
     val avatarUrl: String,
     val githubUrl: String,

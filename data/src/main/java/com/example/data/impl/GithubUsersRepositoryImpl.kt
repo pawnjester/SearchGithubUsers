@@ -19,29 +19,20 @@ class GithubUsersRepositoryImpl @Inject constructor(
     override fun searchUsers(query: String): Flow<List<GithubUser>> {
 
         return flow {
-            emitAll(usersRemote.searchUsers(query).map {
-                mapper.mapFromEntityList(it)
-            })
-
+            emit(usersRemote.searchUsers(query).map {
+                mapper.mapFromEntity(it)
+            }
+                .onEach { user: GithubUser ->
+                    val checkUser: Boolean = usersCache.checkIfUserExist(user.id)
+                    if (checkUser) {
+                        print(">>>WWW $user")
+                        user.apply {  isFavorite = true }
+                    } else {
+                        print(">>>NEXt $user")
+                        user.apply {  isFavorite = false }
+                    }
+                })
         }
-//        return usersCache.getUsers().map {
-////            if (it.isEmpty()) {
-//                val users = usersRemote.searchUsers(query)
-//                usersCache.saveUserList(users)
-//                mapper.mapFromEntityList(users)
-////            } else {
-////                mapper.mapFromEntityList(it)
-////            }
-//        }
-//        return usersCache.getUsers().map {
-////            if (it.isEmpty()) {
-//                val users = usersRemote.searchUsers(query)
-//                usersCache.saveUserList(users)
-//                mapper.mapFromEntityList(users)
-////            } else {
-////                mapper.mapFromEntityList(it)
-////            }
-//        }
     }
 
     override suspend fun favoriteUser(user: GithubUser) {

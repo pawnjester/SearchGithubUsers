@@ -30,5 +30,9 @@ class GithubUsersCacheImpl @Inject constructor(
         }
     }
 
+    override suspend fun checkIfUserExist(id: Int): Boolean {
+        return dao.checkIfUserIsFavorite(id)
+    }
+
 
 }

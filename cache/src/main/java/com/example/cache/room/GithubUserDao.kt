@@ -21,5 +21,8 @@ interface GithubUserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveUserList(users: List<GithubUsersCacheModel>)
 
+    @Query("SELECT EXISTS (SELECT 1 FROM $TABLE_NAME WHERE id = :id AND isFavorite)")
+    fun checkIfUserIsFavorite(id: Int) : Boolean
+
 
 }

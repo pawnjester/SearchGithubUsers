@@ -10,7 +10,6 @@ import com.example.github_ui.mappers.GithubUsersModelMapper
 import com.example.github_ui.models.GithubUsersModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject

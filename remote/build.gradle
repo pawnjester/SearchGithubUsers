@@ -53,6 +53,7 @@ dependencies {
             remoteDependencies.remoteDependencies.retrofitConversion,
             remoteDependencies.remoteDependencies.okHttpLoggingInterceptor,
             remoteDependencies.remoteDependencies.okHttp,
+            remoteDependencies.remoteDependencies.paging,
             remoteDependencies.appDependencies.coroutines,
 
 

@@ -10,6 +10,7 @@ class GithubUsersModelMapper @Inject constructor(
     override fun mapToModel(domain: GithubUser): GithubUsersModel {
         return domain.run {
             GithubUsersModel(
+                domain.id,
                 domain.login,
                 domain.avatarUrl,
                 domain.githubUrl,
@@ -21,6 +22,7 @@ class GithubUsersModelMapper @Inject constructor(
     override fun mapToDomain(model: GithubUsersModel): GithubUser {
         return model.run {
             GithubUser(
+                model.id,
                 model.login,
                 model.avatarUrl,
                 model.githubUrl,

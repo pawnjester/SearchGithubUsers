@@ -41,6 +41,7 @@ ext {
     gsonVersion = "2.8.6"
     okHttpVersion = "4.9.0"
     glide = "4.11.0"
+    pagingVersion = "3.0.0-alpha07"
 
 
     roomDependencies = [
@@ -54,7 +55,8 @@ ext {
             retrofit                : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             retrofitConversion      : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
             okHttp                  : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
-            okHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
+            okHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+            paging                  : "androidx.paging:paging-runtime:${pagingVersion}"
 
     ]
 
@@ -69,7 +71,7 @@ ext {
             javax              : "javax.inject:javax.inject:${javaInjectVersion}",
             androidXViewModel  : "androidx.lifecycle:lifecycle-viewmodel-ktx:${androidLifecycleViewModel}",
             coroutines         : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutinesVersion}",
-            coroutinesAndroid         : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutinesVersion}"
+            coroutinesAndroid  : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutinesVersion}"
     ]
 
     uiDependencies = [
@@ -83,7 +85,7 @@ ext {
             appCompat         : "androidx.appcompat:appcompat:${appCompatVersion}",
             liveData          : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
             shimmer           : "com.facebook.shimmer:shimmer:$shimmerVersion",
-            glide             : "com.github.bumptech.glide:glide:${glide}"
+            glide             : "com.github.bumptech.glide:glide:${glide}",
     ]
 
     testDependencies = [

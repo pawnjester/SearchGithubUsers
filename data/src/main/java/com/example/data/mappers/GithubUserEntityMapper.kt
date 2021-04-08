@@ -10,6 +10,7 @@ class GithubUserEntityMapper @Inject constructor(
     override fun mapFromEntity(entity: GithubUserEntity): GithubUser {
         return entity.run {
             GithubUser(
+                id,
                 login, avatarUrl, githubUrl, isFavorite
             )
         }
@@ -18,6 +19,7 @@ class GithubUserEntityMapper @Inject constructor(
     override fun mapToEntity(domain: GithubUser): GithubUserEntity {
         return domain.run {
             GithubUserEntity(
+                id,
                 login, avatarUrl, githubUrl, isFavorite
             )
         }

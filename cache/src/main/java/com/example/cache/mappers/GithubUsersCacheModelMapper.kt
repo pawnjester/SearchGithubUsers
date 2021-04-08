@@ -10,6 +10,7 @@ class GithubUsersCacheModelMapper @Inject constructor() : CacheModelMapper<Githu
     override fun mapToModel(entity: GithubUserEntity): GithubUsersCacheModel {
         return entity.run {
             GithubUsersCacheModel(
+                entity.id,
                 entity.login,
                 entity.avatarUrl,
                 entity.githubUrl,
@@ -21,6 +22,7 @@ class GithubUsersCacheModelMapper @Inject constructor() : CacheModelMapper<Githu
     override fun mapToEntity(model: GithubUsersCacheModel): GithubUserEntity {
         return model.run {
             GithubUserEntity(
+                model.id,
                 model.login,
                 model.avatarUrl,
                 model.githubUrl,

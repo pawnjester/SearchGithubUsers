@@ -10,4 +10,11 @@ interface ApiService {
     suspend fun searchUsers(
         @Query("q") query : String
     ) : GithubUsersResponse
+
+//    @GET("users")
+//    suspend fun searchUsers(
+//        @Query("q") query : String,
+//        @Query("per_page") per : Int = 10,
+//        @Query("page") page: Int
+//    ) : GithubUsersResponse
 }
