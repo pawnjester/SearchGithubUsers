@@ -4,6 +4,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -32,3 +34,37 @@ fun EditText.textChange(): Flow<CharSequence> {
         awaitClose { removeTextChangedListener(listener) }
     }
 }
+
+fun RecyclerView.observeRecycler(): Flow<Boolean> {
+    return callbackFlow {
+        val listener = object : RecyclerView.OnScrollListener() {
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (!canScrollVertically(1)
+                    && dy > 0 && isLastItemDisplaying
+                ) {
+                    offer(true)
+                }
+            }
+        }
+        addOnScrollListener(listener)
+        awaitClose { removeOnScrollListener(listener) }
+
+    }
+}
+
+val RecyclerView.isLastItemDisplaying: Boolean
+    get() {
+        adapter?.let {
+            if (it.itemCount != 0) {
+                val lastVisibleItemPosition: Int = getLastVisibleItemPosition
+                return lastVisibleItemPosition != RecyclerView.NO_POSITION &&
+                        lastVisibleItemPosition == it.itemCount - 1
+            }
+        }
+        return false
+    }
+
+private val RecyclerView.getLastVisibleItemPosition: Int
+    get() = (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()

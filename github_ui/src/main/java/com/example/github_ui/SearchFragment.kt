@@ -13,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.github_ui.adapters.UsersAdapter
 import com.example.github_ui.databinding.FragmentSearchBinding
 import com.example.github_ui.models.GithubUsersModel
-import com.example.github_ui.utils.MarginItemDecoration
-import com.example.github_ui.utils.observe
-import com.example.github_ui.utils.show
-import com.example.github_ui.utils.textChange
+import com.example.github_ui.utils.*
 import com.example.github_ui.viewmodel.LatestUiState
 import com.example.github_ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,10 +53,21 @@ class SearchFragment : Fragment() {
                 .debounce(1000)
                 .collect {
                     if (it.length >= 3) {
-                        viewModel.searchGithubUsers(it.toString())
+                        viewModel.setQueryInfo(it.toString())
+                        viewModel.searchGithubUsers()
                     }
                 }
 
+
+        }
+
+        lifecycleScope.launch {
+            binding.rvGithubUsers.observeRecycler()
+                .collect {
+                    if (it) {
+                        viewModel.fetchMoreUsers()
+                    }
+                }
         }
 
         usersAdapter.openUsersCallback = {
@@ -72,6 +80,9 @@ class SearchFragment : Fragment() {
         }
 
         observe(viewModel.users, ::subscribeToUi)
+//        observe(viewModel.queryItem, ::observeQuery)
+
+//        observeRecylcerView()
 
     }
 

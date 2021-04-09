@@ -12,9 +12,9 @@ class GithubRemoteImpl @Inject constructor(
     private val mapper: RemoteNetworkModelMapper,
     private val apiService: ApiService
 ) : GithubRemote {
-    override suspend fun searchUsers(query: String): List<GithubUserEntity> {
+    override suspend fun searchUsers(query: String, pageNumber: Int): List<GithubUserEntity> {
 
-            val apiResponse = apiService.searchUsers(query).items
+            val apiResponse = apiService.searchUsers( page = pageNumber, query = query).items
             return apiResponse.map {
                 mapper.mapFromModel(it)
             }
