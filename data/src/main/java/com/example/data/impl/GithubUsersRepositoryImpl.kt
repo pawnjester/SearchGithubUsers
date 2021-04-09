@@ -25,9 +25,9 @@ class GithubUsersRepositoryImpl @Inject constructor(
                 .onEach { user: GithubUser ->
                     val checkUser: Boolean = usersCache.checkIfUserExist(user.id)
                     if (checkUser) {
-                        user.apply {  isFavorite = true }
+                        user.apply { isFavorite = true }
                     } else {
-                        user.apply {  isFavorite = false }
+                        user.apply { isFavorite = false }
                     }
                 })
         }

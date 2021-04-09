@@ -22,10 +22,6 @@ class GithubUsersCacheImpl @Inject constructor(
         dao.removeUserFromFavorite(mapper.mapToModel(user))
     }
 
-    override suspend fun saveUserList(user: List<GithubUserEntity>) {
-        dao.saveUserList(mapper.mapToModelList(user))
-    }
-
     override fun getUsers(): Flow<List<GithubUserEntity>> {
         val models = dao.getUsersFromCache()
 

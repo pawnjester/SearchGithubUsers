@@ -7,10 +7,7 @@ interface GithubCache {
 
     suspend fun saveUser(user: GithubUserEntity)
     suspend fun removeUser(user: GithubUserEntity)
+    fun getUsers(): Flow<List<GithubUserEntity>>
 
-    suspend fun saveUserList(user: List<GithubUserEntity>)
-
-    fun getUsers() : Flow<List<GithubUserEntity>>
-
-    suspend fun checkIfUserExist(id: Int) : Boolean
+    suspend fun checkIfUserExist(id: Int): Boolean
 }
