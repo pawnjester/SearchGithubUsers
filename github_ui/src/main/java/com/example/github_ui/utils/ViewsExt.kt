@@ -1,9 +1,12 @@
 package com.example.github_ui.utils
 
+import android.content.Context
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -68,3 +71,13 @@ val RecyclerView.isLastItemDisplaying: Boolean
 
 private val RecyclerView.getLastVisibleItemPosition: Int
     get() = (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+
+fun Context.showToast(message: String, duration: Int, action: (() -> Unit)? = null) {
+    Toast.makeText(this, message, duration).show()
+    action?.let {
+        val handler = Handler()
+        handler.postDelayed({
+            it.invoke()
+        }, duration.toLong())
+    }
+}

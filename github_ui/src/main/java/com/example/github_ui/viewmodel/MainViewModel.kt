@@ -13,6 +13,7 @@ import com.example.domain.usecases.SearchUsersUseCase
 import com.example.github_ui.mappers.GithubUsersModelMapper
 import com.example.github_ui.models.GithubUsersModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -68,6 +69,9 @@ class MainViewModel @Inject constructor(
                 .map {
                     mapper.mapToModelList(it)
                 }
+                .catch {
+                    _users.value = LatestUiState.Error("Cannot fetch users")
+                }
                 .collect {
                     usersList.clear()
                     usersList.addAll(it)
@@ -95,6 +99,9 @@ class MainViewModel @Inject constructor(
             }
                 .map {
                     mapper.mapToModelList(it)
+                }
+                .catch {
+                    _users.value = LatestUiState.Error("Cannot fetch more users")
                 }
                 .collect {
                     _isLoadingMore.value = false
