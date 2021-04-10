@@ -3,6 +3,7 @@ package com.example.data.impl
 import com.example.data.contracts.cache.GithubCache
 import com.example.data.contracts.remote.GithubRemote
 import com.example.data.mappers.GithubUserEntityMapper
+import com.example.data.models.GithubUserEntity
 import com.example.domain.model.GithubUser
 import com.example.domain.model.GithubUserResponse
 import com.example.domain.repositories.GithubUsersRepository
@@ -21,19 +22,18 @@ class GithubUsersRepositoryImpl @Inject constructor(
     override fun searchUsers(query: String, pageNumber: Int): Flow<GithubUserResponse> {
 
         return flow {
-            val remote = usersRemote.searchUsers(query, pageNumber)
-            remote.items.map {
-                mapper.mapFromEntity(it)
-            }
-                .onEach { user: GithubUser ->
-                    val checkUser: Boolean = usersCache.checkIfUserExist(user.id)
+            emitAll(usersRemote.searchUsers(query, pageNumber).map {
+                it.items.map { entity: GithubUserEntity ->
+                    val checkUser: Boolean = usersCache.checkIfUserExist(entity.id)
                     if (checkUser) {
-                        user.apply { isFavorite = true }
+                        entity.apply { isFavorite = true }
                     } else {
-                        user.apply { isFavorite = false }
+                        entity.apply { isFavorite = false }
                     }
+                    mapper.mapFromEntity(entity)
                 }
-            emit(GithubUserResponse(remote.total_count, entityMapper.mapFromEntityList(remote.items)))
+                GithubUserResponse(it.total_count, entityMapper.mapFromEntityList(it.items))
+            })
         }
     }
 
@@ -41,11 +41,21 @@ class GithubUsersRepositoryImpl @Inject constructor(
         usersCache.saveUser(mapper.mapToEntity(user))
     }
 
+    override suspend fun deleteFavoriteUser(user: GithubUser) {
+        usersCache.removeUser(mapper.mapToEntity(user))
+    }
+
     override fun getFavoriteUsers(): Flow<List<GithubUser>> {
         return flow {
             emitAll(usersCache.getUsers().map {
                 mapper.mapFromEntityList(it)
             })
+        }
+    }
+
+    override fun checkFavoriteUser(id: Int): Flow<Boolean> {
+        return flow {
+            emit(usersCache.checkIfUserExist(id))
         }
     }
 }

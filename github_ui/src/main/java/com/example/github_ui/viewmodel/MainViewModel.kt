@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.GithubUser
-import com.example.domain.model.GithubUserResponse
+import com.example.domain.usecases.DeleteFavoriteUseCase
 import com.example.domain.usecases.FavoriteUserUseCase
-import com.example.domain.usecases.GetFavoriteUsersUseCase
 import com.example.domain.usecases.LoadMoreUsersUseCase
 import com.example.domain.usecases.SearchUsersUseCase
 import com.example.github_ui.mappers.GithubUsersModelMapper
@@ -15,7 +13,6 @@ import com.example.github_ui.models.GithubUsersModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +22,7 @@ class MainViewModel @Inject constructor(
     private val searchUsers: SearchUsersUseCase,
     private val loadMore: LoadMoreUsersUseCase,
     private val favoriteUserUseCase: FavoriteUserUseCase,
-    private val getFavoriteUseCase: GetFavoriteUsersUseCase,
+    private val deleteFavoritesUseCase: DeleteFavoriteUseCase,
     private val mapper: GithubUsersModelMapper
 ) : ViewModel() {
 
@@ -43,11 +40,12 @@ class MainViewModel @Inject constructor(
     private val _isLoadingMore = MutableLiveData<Boolean>()
     val isLoadingMore: LiveData<Boolean> = _isLoadingMore
 
+    private var count = 0
+
     fun setQueryInfo(query: String) {
         queryItem = query
     }
 
-    var count = 0
 
     fun searchGithubUsers() {
         _users.value = LatestUiState.Loading
@@ -57,17 +55,9 @@ class MainViewModel @Inject constructor(
         )
         viewModelScope.launch {
             searchUsers(params)
-                .combine(getFavoriteUseCase())
-                { searchItems: GithubUserResponse, favoritesItem: List<GithubUser> ->
-                    count = searchItems.total_count
-                    searchItems.items.onEach { user ->
-                        val favoriteItem = favoritesItem.find { it.id == user.id }
-                        val exist = favoriteItem != null
-                        user.isFavorite = exist
-                    }
-                }
                 .map {
-                    mapper.mapToModelList(it)
+                    count = it.total_count
+                    mapper.mapToModelList(it.items)
                 }
                 .catch {
                     _users.value = LatestUiState.Error("Cannot fetch users")
@@ -89,16 +79,9 @@ class MainViewModel @Inject constructor(
             pageNumber = currentPage + 1
         )
         viewModelScope.launch {
-            loadMore(params).combine(getFavoriteUseCase())
-            { searchItems: GithubUserResponse, favoritesItem: List<GithubUser> ->
-                searchItems.items.onEach { user ->
-                    val favoriteItem = favoritesItem.find { it.id == user.id }
-                    val exist = favoriteItem != null
-                    user.isFavorite = exist
-                }
-            }
+            loadMore(params)
                 .map {
-                    mapper.mapToModelList(it)
+                    mapper.mapToModelList(it.items)
                 }
                 .catch {
                     _users.value = LatestUiState.Error("Cannot fetch more users")
@@ -112,12 +95,15 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun shouldFetch() = usersList.size < count
+    private fun shouldFetch() = usersList.size < count
 
-    fun favoriteUser(user: GithubUsersModel) {
+    fun favoriteUser(user: GithubUsersModel, isFavorite: Boolean) {
         viewModelScope.launch {
-            val favoriteRestaurant = user.apply { isFavorite = !user.isFavorite }
-            favoriteUserUseCase(mapper.mapToDomain(favoriteRestaurant))
+            if (isFavorite) {
+                favoriteUserUseCase(mapper.mapToDomain(user))
+            } else {
+                deleteFavoritesUseCase(mapper.mapToDomain(user))
+            }
         }
     }
 }

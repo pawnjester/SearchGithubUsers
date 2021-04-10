@@ -10,5 +10,9 @@ interface GithubUsersRepository {
 
     suspend fun favoriteUser(user: GithubUser)
 
+    suspend fun deleteFavoriteUser(user: GithubUser)
+
     fun getFavoriteUsers(): Flow<List<GithubUser>>
+
+    fun checkFavoriteUser(id: Int) : Flow<Boolean>
 }

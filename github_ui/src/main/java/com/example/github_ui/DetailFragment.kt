@@ -51,7 +51,14 @@ class DetailFragment : Fragment() {
         viewModel.setUserDetail(userArgs.user)
 
         observe(viewModel.user, ::init)
+        observe(viewModel.isFavorite, ::setFavoriteStatus)
 
+    }
+
+    private fun setFavoriteStatus(status: Boolean?) {
+        status?.let {
+            setFavoriteIcon(it)
+        }
     }
 
     private fun init(user: GithubUsersModel?) {
@@ -70,6 +77,19 @@ class DetailFragment : Fragment() {
                         R.drawable.ic_baseline_favorite_border_24
                     )
             }
+        }
+    }
+
+    private fun setFavoriteIcon(isFavorite: Boolean) {
+        if (isFavorite) {
+            binding.toolbar.menu?.get(0)?.icon =
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_red_favorite)
+        } else {
+            binding.toolbar.menu?.get(0)?.icon =
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_baseline_favorite_border_24
+                )
         }
     }
 

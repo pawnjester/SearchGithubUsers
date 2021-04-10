@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.usecases.DeleteFavoriteUseCase
 import com.example.domain.usecases.FavoriteUserUseCase
 import com.example.domain.usecases.GetFavoriteUsersUseCase
 import com.example.github_ui.mappers.GithubUsersModelMapper
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class FavoriteUserViewModel @Inject constructor(
     private val getUsers: GetFavoriteUsersUseCase,
     private val favoriteUserUseCase: FavoriteUserUseCase,
+    private val deleteFavoritesUseCase: DeleteFavoriteUseCase,
     private val mapper: GithubUsersModelMapper,
 ) : ViewModel() {
 
@@ -36,10 +38,13 @@ class FavoriteUserViewModel @Inject constructor(
         }
     }
 
-    fun favoriteUser(user: GithubUsersModel) {
+    fun favoriteUser(user: GithubUsersModel, isFavorite: Boolean) {
         viewModelScope.launch {
-            val favoriteRestaurant = user.apply { isFavorite = !user.isFavorite }
-            favoriteUserUseCase(mapper.mapToDomain(favoriteRestaurant))
+            if (isFavorite) {
+                deleteFavoritesUseCase(mapper.mapToDomain(user))
+            } else {
+                favoriteUserUseCase(mapper.mapToDomain(user))
+            }
         }
     }
 }

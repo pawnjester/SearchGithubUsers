@@ -23,5 +23,6 @@ This app is a simple application that allows the user to search and save github 
 
 ## How to make use of the app
 - Clone this repo
+- Generate a Github Token and include it in the local properties as API_KEY=******
 
 ### Created by Okonji Emmanuel

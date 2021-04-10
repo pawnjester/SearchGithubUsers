@@ -22,7 +22,7 @@ class UsersAdapter @Inject constructor() : RecyclerView.Adapter<UserViewHolder>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        return UserViewHolder.create(parent, openUsersCallback ?: {}, favoriteUsersCallback ?: {})
+        return UserViewHolder.create(parent, openUsersCallback ?: {}, favoriteUsersCallback!!)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {

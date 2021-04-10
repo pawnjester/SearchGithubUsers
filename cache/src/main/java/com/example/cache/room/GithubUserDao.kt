@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GithubUserDao {
 
-    @Query("select * from $TABLE_NAME where isFavorite")
+    @Query("select * from $TABLE_NAME")
     fun getUsersFromCache(): Flow<List<GithubUsersCacheModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -21,7 +21,7 @@ interface GithubUserDao {
     @Delete
     fun removeUserFromFavorite(user: GithubUsersCacheModel)
 
-    @Query("SELECT EXISTS (SELECT 1 FROM $TABLE_NAME WHERE id = :id AND isFavorite)")
+    @Query("SELECT EXISTS (SELECT 1 FROM $TABLE_NAME WHERE id = :id)")
     fun checkIfUserIsFavorite(id: Int) : Boolean
 
 

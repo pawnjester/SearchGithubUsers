@@ -1,6 +1,5 @@
 package com.example.github_ui.adapters.viewHolders
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
@@ -18,8 +17,10 @@ class FavoriteUserViewHolder(
     private val favoriteUserCallback: FavoriteUserCallback,
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    private var isFavorite = false
+
     fun bind(item: GithubUsersModel) {
-        val iconDrawable = setFavoriteIconColor(item)
+        isFavorite = item.isFavorite
 
         item.run {
             binding.imageUser.loadImage(avatarUrl)
@@ -28,22 +29,13 @@ class FavoriteUserViewHolder(
             binding.userLayout.setOnClickListener {
                 openUsersDetailsCallback.invoke(item)
             }
-            binding.favoriteUser.setImageDrawable(iconDrawable)
+            binding.favoriteUser.setImageDrawable(ResourcesCompat.getDrawable(itemView.resources, R.drawable.ic_red_favorite, null))
             binding.favoriteUser.setOnClickListener {
-                favoriteUserCallback.invoke(item)
+                isFavorite = !isFavorite
+                favoriteUserCallback.invoke(item, isFavorite)
             }
         }
 
-    }
-
-
-    private fun setFavoriteIconColor(item: GithubUsersModel): Drawable? {
-        return when {
-            item.isFavorite -> {
-                ResourcesCompat.getDrawable(itemView.resources, R.drawable.ic_red_favorite, null)
-            }
-            else -> ResourcesCompat.getDrawable(itemView.resources, R.drawable.ic_baseline_favorite_border_24, null)
-        }
     }
 
     companion object {

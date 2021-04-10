@@ -56,8 +56,8 @@ class FavoriteUserFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        favoriteUserAdapter.favoriteUserCallback = {
-            viewModel.favoriteUser(it)
+        favoriteUserAdapter.favoriteUserCallback = { model, isFavorite ->
+            viewModel.favoriteUser(model, isFavorite)
         }
 
         observe(viewModel.favoriteUsers, ::subscribeToUi)
@@ -78,6 +78,12 @@ class FavoriteUserFragment : Fragment() {
                 is LatestUiState.Success -> {
                     binding.favoriteRv.show(true)
                     favoriteUserAdapter.setFavoriteUsersList(it.users)
+                }
+                LatestUiState.Loading -> {
+
+                }
+                is LatestUiState.Error -> {
+
                 }
             }
         }

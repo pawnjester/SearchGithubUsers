@@ -76,8 +76,8 @@ class SearchFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        usersAdapter.favoriteUsersCallback = {
-            viewModel.favoriteUser(it)
+        usersAdapter.favoriteUsersCallback = { recipeModel, isFavorite ->
+            viewModel.favoriteUser(recipeModel, isFavorite)
         }
 
         observe(viewModel.users, ::subscribeToUi)

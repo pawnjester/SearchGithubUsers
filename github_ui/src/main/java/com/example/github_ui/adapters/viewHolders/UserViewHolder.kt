@@ -18,8 +18,10 @@ class UserViewHolder(
     private val favoriteUserCallback: FavoriteUserCallback,
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    private var isFavorite = false
+
     fun bind(item: GithubUsersModel) {
-        val iconDrawable = setFavoriteIconColor(item)
+        isFavorite = item.isFavorite
         item.run {
             binding.imageUser.loadImage(avatarUrl)
             binding.userName.text = login
@@ -27,10 +29,12 @@ class UserViewHolder(
             binding.userLayout.setOnClickListener {
                 openUsersDetailsCallback.invoke(item)
             }
+            binding.favoriteUser.setImageDrawable(setFavoriteIconColor(item))
             binding.favoriteUser.setOnClickListener {
-                favoriteUserCallback.invoke(item)
+                isFavorite = !isFavorite
+                favoriteUserCallback.invoke(item, isFavorite)
+                binding.favoriteUser.setImageDrawable(setFavoriteIconColor(item))
             }
-            binding.favoriteUser.setImageDrawable(iconDrawable)
         }
     }
 

@@ -13,8 +13,7 @@ class GithubUsersCacheModelMapper @Inject constructor() : CacheModelMapper<Githu
                 entity.id,
                 entity.login,
                 entity.avatarUrl,
-                entity.githubUrl,
-                entity.isFavorite
+                entity.githubUrl
             )
         }
     }
@@ -25,8 +24,7 @@ class GithubUsersCacheModelMapper @Inject constructor() : CacheModelMapper<Githu
                 model.id,
                 model.login,
                 model.avatarUrl,
-                model.githubUrl,
-                model.isFavorite
+                model.githubUrl
             )
         }
     }

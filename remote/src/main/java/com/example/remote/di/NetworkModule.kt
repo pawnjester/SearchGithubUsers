@@ -1,6 +1,7 @@
 package com.example.remote.di
 
 import com.example.remote.ApiService
+import com.example.remote.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +26,7 @@ interface NetworkModule {
                     chain.request().newBuilder()
                         .header("Content-Type", "application/json")
                         .header("Accept", "application/json")
-                        .header("Authorization", "token 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")
+                        .header("Authorization", "token ${BuildConfig.API_KEY}")
                         .build()
                 )
             }
