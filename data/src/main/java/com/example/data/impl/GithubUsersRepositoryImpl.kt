@@ -4,6 +4,7 @@ import com.example.data.contracts.cache.GithubCache
 import com.example.data.contracts.remote.GithubRemote
 import com.example.data.mappers.GithubUserEntityMapper
 import com.example.domain.model.GithubUser
+import com.example.domain.model.GithubUserResponse
 import com.example.domain.repositories.GithubUsersRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
@@ -13,13 +14,15 @@ import javax.inject.Inject
 
 class GithubUsersRepositoryImpl @Inject constructor(
     private val mapper: GithubUserEntityMapper,
+    private val entityMapper: GithubUserEntityMapper,
     private val usersRemote: GithubRemote,
     private val usersCache: GithubCache
 ) : GithubUsersRepository {
-    override fun searchUsers(query: String, pageNumber: Int): Flow<List<GithubUser>> {
+    override fun searchUsers(query: String, pageNumber: Int): Flow<GithubUserResponse> {
 
         return flow {
-            emit(usersRemote.searchUsers(query, pageNumber).map {
+            val remote = usersRemote.searchUsers(query, pageNumber)
+            remote.items.map {
                 mapper.mapFromEntity(it)
             }
                 .onEach { user: GithubUser ->
@@ -29,7 +32,8 @@ class GithubUsersRepositoryImpl @Inject constructor(
                     } else {
                         user.apply { isFavorite = false }
                     }
-                })
+                }
+            emit(GithubUserResponse(remote.total_count, entityMapper.mapFromEntityList(remote.items)))
         }
     }
 

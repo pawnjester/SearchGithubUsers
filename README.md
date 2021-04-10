@@ -1,5 +1,5 @@
-## Search Github Users App Clean Architecture and MVVM
-This app is a simple application that allows the user to search and save recipes. This app makes use of the [Spoonacular API](https://spoonacular.com/)
+## Search Github Users
+This app is a simple application that allows the user to search and save github users. This app makes use of the [Github Search API](https://api.github.com/search/)
 
 ## Built With 🛠
 

@@ -80,10 +80,7 @@ class SearchFragment : Fragment() {
         }
 
         observe(viewModel.users, ::subscribeToUi)
-//        observe(viewModel.queryItem, ::observeQuery)
-
-//        observeRecylcerView()
-
+        observe(viewModel.isLoadingMore, ::observeLoading)
     }
 
     private fun setupRecyclerView() {
@@ -113,6 +110,16 @@ class SearchFragment : Fragment() {
                 else -> {
 
                 }
+            }
+        }
+    }
+
+    private fun observeLoading(isLoad: Boolean?) {
+        isLoad?.let {
+            if (it) {
+                binding.loadMore.show(true)
+            } else {
+                binding.loadMore.show(false)
             }
         }
     }

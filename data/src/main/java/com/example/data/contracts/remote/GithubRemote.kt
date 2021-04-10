@@ -1,8 +1,7 @@
 package com.example.data.contracts.remote
 
-import com.example.data.models.GithubUserEntity
+import com.example.data.models.GithubUserResponseEntity
 
 interface GithubRemote {
-    suspend fun searchUsers(query: String, pageNumber: Int): List<GithubUserEntity>
-//    fun searchUsers(query: String) : List<GithubUserEntity>
+    suspend fun searchUsers(query: String, pageNumber: Int): GithubUserResponseEntity
 }

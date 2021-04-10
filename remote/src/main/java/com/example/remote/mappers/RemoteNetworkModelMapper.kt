@@ -16,4 +16,15 @@ class RemoteNetworkModelMapper @Inject constructor() : RemoteModelMapper<GithubU
             )
         }
     }
+
+    override fun mapToModel(domain: GithubUserEntity): GithubUsersNetworkModel {
+        return domain.run {
+            GithubUsersNetworkModel(
+                id,
+                login,
+                avatarUrl,
+                githubUrl
+            )
+        }
+    }
 }

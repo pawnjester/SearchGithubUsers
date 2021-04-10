@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.GithubUser
+import com.example.domain.model.GithubUserResponse
 import com.example.domain.usecases.FavoriteUserUseCase
 import com.example.domain.usecases.GetFavoriteUsersUseCase
 import com.example.domain.usecases.LoadMoreUsersUseCase
@@ -38,48 +39,55 @@ class MainViewModel @Inject constructor(
 
     private var queryItem: String = ""
 
-//    private val _queryItem = MutableLiveData<String>()
-//    val queryItem: LiveData<String> = _queryItem
+    private val _isLoadingMore = MutableLiveData<Boolean>()
+    val isLoadingMore: LiveData<Boolean> = _isLoadingMore
 
     fun setQueryInfo(query: String) {
         queryItem = query
     }
 
+    var count = 0
+
     fun searchGithubUsers() {
         _users.value = LatestUiState.Loading
         params = SearchUsersUseCase.Params(
-            query = queryItem ?: "",
-            pageNumber = currentPage
+            query = queryItem,
+            pageNumber = 1
         )
         viewModelScope.launch {
-            searchUsers(params).combine(getFavoriteUseCase())
-            { searchItems: List<GithubUser>, favoritesItem: List<GithubUser> ->
-                searchItems.onEach { user ->
-                    val favoriteItem = favoritesItem.find { it.id == user.id }
-                    val exist = favoriteItem != null
-                    user.isFavorite = exist
+            searchUsers(params)
+                .combine(getFavoriteUseCase())
+                { searchItems: GithubUserResponse, favoritesItem: List<GithubUser> ->
+                    count = searchItems.total_count
+                    searchItems.items.onEach { user ->
+                        val favoriteItem = favoritesItem.find { it.id == user.id }
+                        val exist = favoriteItem != null
+                        user.isFavorite = exist
+                    }
                 }
-            }
                 .map {
                     mapper.mapToModelList(it)
                 }
                 .collect {
                     usersList.clear()
                     usersList.addAll(it)
-                    _users.value = LatestUiState.Success(it)
+                    _users.value = LatestUiState.Success(usersList)
                 }
         }
     }
 
     fun fetchMoreUsers() {
+        if (shouldFetch()) {
+            _isLoadingMore.value = true
+        }
         params = SearchUsersUseCase.Params(
             query = queryItem,
             pageNumber = currentPage + 1
         )
         viewModelScope.launch {
             loadMore(params).combine(getFavoriteUseCase())
-            { searchItems: List<GithubUser>, favoritesItem: List<GithubUser> ->
-                searchItems.onEach { user ->
+            { searchItems: GithubUserResponse, favoritesItem: List<GithubUser> ->
+                searchItems.items.onEach { user ->
                     val favoriteItem = favoritesItem.find { it.id == user.id }
                     val exist = favoriteItem != null
                     user.isFavorite = exist
@@ -89,12 +97,15 @@ class MainViewModel @Inject constructor(
                     mapper.mapToModelList(it)
                 }
                 .collect {
+                    _isLoadingMore.value = false
                     currentPage += 1
                     usersList.addAll(it)
                     _users.value = LatestUiState.Success(usersList)
                 }
         }
     }
+
+    fun shouldFetch() = usersList.size < count
 
     fun favoriteUser(user: GithubUsersModel) {
         viewModelScope.launch {
