@@ -3,8 +3,6 @@ package com.example.searchgithubusers.fakes
 import com.example.domain.model.GithubUser
 import com.example.domain.model.GithubUserResponse
 import com.example.domain.repositories.GithubUsersRepository
-import com.example.searchgithubusers.fakes.DummyData.makeGithubUser
-import com.example.searchgithubusers.fakes.DummyData.makeGithubUserList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -20,11 +18,11 @@ class FakeGithubRepository : GithubUsersRepository {
     }
 
     override suspend fun deleteFavoriteUser(user: GithubUser) {
-        TODO("Not yet implemented")
+        cache.clear()
     }
 
     override fun getFavoriteUsers(): Flow<List<GithubUser>> {
-        return flowOf(makeGithubUserList(1))
+        return flowOf(cache.values.toList())
     }
 
     override fun checkFavoriteUser(id: Int): Flow<Boolean> {
