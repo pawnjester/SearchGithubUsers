@@ -7,4 +7,5 @@
     <string name="home_menu">Home</string>
     <string name="favorites_menu">Favorite</string>
     <string name="user_image">User Image</string>
+    <string name="no_results_hint">No Results, search for another user!</string>
 </resources>

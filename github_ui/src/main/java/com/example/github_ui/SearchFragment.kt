@@ -49,16 +49,19 @@ class SearchFragment : Fragment() {
 
         setupRecyclerView()
 
-        lifecycleScope.launch {
-            binding.searchGithubEditText.textChange()
-                .debounce(1000)
-                .collect {
-                    if (it.length >= 3) {
-                        viewModel.setQueryInfo(it.toString())
-                        viewModel.searchGithubUsers()
+        if (savedInstanceState == null) {
+            lifecycleScope.launch {
+                binding.searchGithubEditText.textChange()
+                    .debounce(1000)
+                    .collect {
+                        if (it.length >= 3) {
+                            viewModel.setQueryInfo(it.toString())
+                            viewModel.searchGithubUsers()
+                        }
                     }
-                }
+            }
         }
+
 
         lifecycleScope.launch {
             binding.rvGithubUsers.observeRecycler()
@@ -105,11 +108,19 @@ class SearchFragment : Fragment() {
                     binding.swipeRefresh.isRefreshing = false
                 }
                 is LatestUiState.Success -> {
-                    binding.shimmerRecycler.stopShimmer()
-                    binding.shimmerRecycler.show(false)
-                    binding.rvGithubUsers.show(true)
-                    usersAdapter.setUsers(it.users)
-                    binding.swipeRefresh.isRefreshing = false
+                    if (it.users.isEmpty()) {
+                        binding.shimmerRecycler.stopShimmer()
+                        binding.shimmerRecycler.show(false)
+                        binding.rvGithubUsers.show(true)
+                        binding.swipeRefresh.isRefreshing = false
+                    } else {
+                        binding.shimmerRecycler.stopShimmer()
+                        binding.shimmerRecycler.show(false)
+                        binding.rvGithubUsers.show(true)
+                        usersAdapter.setUsers(it.users)
+                        binding.swipeRefresh.isRefreshing = false
+
+                    }
                 }
                 is LatestUiState.Error -> {
                     requireContext().showToast(it.exception, Toast.LENGTH_LONG)
@@ -130,6 +141,12 @@ class SearchFragment : Fragment() {
             }
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("rrrr", "here")
+        super.onSaveInstanceState(outState)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
