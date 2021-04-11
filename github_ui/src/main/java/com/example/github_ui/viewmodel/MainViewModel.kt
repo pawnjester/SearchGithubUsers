@@ -49,9 +49,10 @@ class MainViewModel @Inject constructor(
 
     fun searchGithubUsers() {
         _users.value = LatestUiState.Loading
+        currentPage = 1
         params = SearchUsersUseCase.Params(
             query = queryItem,
-            pageNumber = 1
+            pageNumber = currentPage
         )
         viewModelScope.launch {
             searchUsers(params)
