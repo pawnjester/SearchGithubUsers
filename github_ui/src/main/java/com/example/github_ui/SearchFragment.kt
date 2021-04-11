@@ -111,6 +111,7 @@ class SearchFragment : Fragment() {
                 is LatestUiState.Error -> {
                     requireContext().showToast(it.exception, Toast.LENGTH_LONG)
                     binding.loadMore.show(false)
+                    binding.shimmerRecycler.show(false)
                 }
             }
         }

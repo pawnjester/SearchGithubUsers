@@ -66,17 +66,7 @@ class DetailFragment : Fragment() {
             binding.imgBackdrop.loadImage(it.avatarUrl)
             binding.userDetailName.text = it.login
             binding.userGithubLink.text = it.githubUrl
-
-            if (it.isFavorite) {
-                binding.toolbar.menu?.get(0)?.icon =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_red_favorite)
-            } else {
-                binding.toolbar.menu?.get(0)?.icon =
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_baseline_favorite_border_24
-                    )
-            }
+            setFavoriteIcon(it.isFavorite)
         }
     }
 

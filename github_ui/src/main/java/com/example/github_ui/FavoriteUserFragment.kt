@@ -79,12 +79,6 @@ class FavoriteUserFragment : Fragment() {
                     binding.favoriteRv.show(true)
                     favoriteUserAdapter.setFavoriteUsersList(it.users)
                 }
-                LatestUiState.Loading -> {
-
-                }
-                is LatestUiState.Error -> {
-
-                }
             }
         }
     }
