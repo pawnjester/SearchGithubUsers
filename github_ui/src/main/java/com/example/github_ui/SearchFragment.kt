@@ -108,19 +108,11 @@ class SearchFragment : Fragment() {
                     binding.swipeRefresh.isRefreshing = false
                 }
                 is LatestUiState.Success -> {
-                    if (it.users.isEmpty()) {
-                        binding.shimmerRecycler.stopShimmer()
-                        binding.shimmerRecycler.show(false)
-                        binding.rvGithubUsers.show(true)
-                        binding.swipeRefresh.isRefreshing = false
-                    } else {
-                        binding.shimmerRecycler.stopShimmer()
-                        binding.shimmerRecycler.show(false)
-                        binding.rvGithubUsers.show(true)
-                        usersAdapter.setUsers(it.users)
-                        binding.swipeRefresh.isRefreshing = false
-
-                    }
+                    binding.shimmerRecycler.stopShimmer()
+                    binding.shimmerRecycler.show(false)
+                    binding.rvGithubUsers.show(true)
+                    usersAdapter.setUsers(it.users)
+                    binding.swipeRefresh.isRefreshing = false
                 }
                 is LatestUiState.Error -> {
                     requireContext().showToast(it.exception, Toast.LENGTH_LONG)
