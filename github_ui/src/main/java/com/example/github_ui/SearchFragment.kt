@@ -1,6 +1,7 @@
 package com.example.github_ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,6 +61,8 @@ class SearchFragment : Fragment() {
                         }
                     }
             }
+        } else {
+            Log.e("rrr", "here")
         }
 
 
@@ -132,11 +135,6 @@ class SearchFragment : Fragment() {
                 binding.loadMore.show(false)
             }
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString("rrrr", "here")
-        super.onSaveInstanceState(outState)
     }
 
 
