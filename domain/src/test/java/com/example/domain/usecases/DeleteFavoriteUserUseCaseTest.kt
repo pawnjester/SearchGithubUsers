@@ -1,8 +1,8 @@
 package com.example.searchgithubusers.usecases
 
 import com.example.domain.model.GithubUser
-import com.example.domain.usecases.FavoriteUserUseCase
-import com.example.searchgithubusers.fakes.DummyData.makeGithubUser
+import com.example.domain.usecases.DeleteFavoriteUseCase
+import com.example.domain.fakes.DummyData
 import com.example.searchgithubusers.fakes.FakeGithubRepository
 import com.example.searchgithubusers.fakes.TestPostExecutionThread
 import com.google.common.truth.Truth.assertThat
@@ -11,17 +11,18 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
-class FavoriteUserUseCaseTest {
+class DeleteFavoriteUserUseCaseTest {
 
     private val repository = FakeGithubRepository()
-    private val favoriteUser = FavoriteUserUseCase(repository, TestPostExecutionThread())
+    private val deleteUser = DeleteFavoriteUseCase(repository, TestPostExecutionThread())
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `check that favorite user`() = runBlockingTest {
-        val user = makeGithubUser()
-        favoriteUser(user)
+    fun `check that delete user`() = runBlockingTest {
+        val user = DummyData.makeGithubUser()
+        repository.favoriteUser(user)
+        deleteUser(user)
         val result: List<GithubUser> = repository.getFavoriteUsers().first()
-        assertThat(user).isEqualTo(result[0])
+        assertThat(result).isEmpty()
     }
 }
