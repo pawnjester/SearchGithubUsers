@@ -26,6 +26,6 @@ class FakeGithubRepository : GithubUsersRepository {
     }
 
     override fun checkFavoriteUser(id: Int): Flow<Boolean> {
-        TODO("Not yet implemented")
+        return flowOf(cache.containsKey(id))
     }
 }
