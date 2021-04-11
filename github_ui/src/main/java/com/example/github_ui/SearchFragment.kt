@@ -58,8 +58,6 @@ class SearchFragment : Fragment() {
                         viewModel.searchGithubUsers()
                     }
                 }
-
-
         }
 
         lifecycleScope.launch {
@@ -71,6 +69,9 @@ class SearchFragment : Fragment() {
                 }
         }
 
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.searchGithubUsers()
+        }
         usersAdapter.openUsersCallback = {
             val action = SearchFragmentDirections.actionNavigationHomeToNavigationFavorite(it)
             findNavController().navigate(action)
@@ -101,17 +102,20 @@ class SearchFragment : Fragment() {
                     binding.shimmerRecycler.show(true)
                     binding.shimmerRecycler.startShimmer()
                     binding.rvGithubUsers.show(false)
+                    binding.swipeRefresh.isRefreshing = false
                 }
                 is LatestUiState.Success -> {
                     binding.shimmerRecycler.stopShimmer()
                     binding.shimmerRecycler.show(false)
                     binding.rvGithubUsers.show(true)
                     usersAdapter.setUsers(it.users)
+                    binding.swipeRefresh.isRefreshing = false
                 }
                 is LatestUiState.Error -> {
                     requireContext().showToast(it.exception, Toast.LENGTH_LONG)
                     binding.loadMore.show(false)
                     binding.shimmerRecycler.show(false)
+                    binding.swipeRefresh.isRefreshing = false
                 }
             }
         }

@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -79,5 +80,18 @@ fun Context.showToast(message: String, duration: Int, action: (() -> Unit)? = nu
         handler.postDelayed({
             it.invoke()
         }, duration.toLong())
+    }
+}
+
+class AbsentLiveData<T : Any?> private constructor(): LiveData<T>() {
+    init {
+        // use post instead of set since this can be created on any thread
+        postValue(null)
+    }
+
+    companion object {
+        fun <T> create(): LiveData<T> {
+            return AbsentLiveData()
+        }
     }
 }

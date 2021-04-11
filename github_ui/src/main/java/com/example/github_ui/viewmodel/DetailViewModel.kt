@@ -21,10 +21,10 @@ class DetailViewModel @Inject constructor(
     private var _user = MutableLiveData<GithubUsersModel>()
     var user: LiveData<GithubUsersModel> = _user
 
-    private val _isFavorite = Transformations.switchMap(_user) {
+    private val _isFavorite: LiveData<Boolean> = Transformations.switchMap(_user) {
         checkFavoritesUseCase(it.id).asLiveData()
     }
-    val isFavorite = Transformations.map(_isFavorite) { it }
+    val isFavorite: LiveData<Boolean> = Transformations.map(_isFavorite) { it }
 
 
     fun setUserDetail(user: GithubUsersModel?) {
