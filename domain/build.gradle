@@ -15,10 +15,23 @@ dependencies {
 
     def domainDependencies = rootProject.ext
 
+    def testDependencies = rootProject.ext.testDependencies
+
     implementation(
             domainDependencies.appDependencies.kotlin,
             domainDependencies.appDependencies.javax,
             domainDependencies.appDependencies.coroutines,
 
+    )
+
+    testImplementation(
+            testDependencies.testRunner,
+            testDependencies.androidXTest,
+            testDependencies.androidXTestCore,
+            testDependencies.roboelectric,
+            testDependencies.truth,
+            testDependencies.coroutinesTest,
+            testDependencies.mockitoKotlin,
+            testDependencies.mockito,
     )
 }

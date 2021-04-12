@@ -20,10 +20,11 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
         buildConfigField("String", "API_KEY", localProperties['apikey'])
+
+        testInstrumentationRunner "com.example.github_ui.CustomTestRunner"
     }
 
     buildTypes {
@@ -51,6 +52,8 @@ dependencies {
     def presentationDependencies = rootProject.ext
     def testDependencies = rootProject.ext.testDependencies
 
+    def remoteDependencies = rootProject.ext.remoteDependencies
+
     implementation(
             presentationDependencies.appDependencies.daggerHiltAndroid,
             presentationDependencies.appDependencies.kotlin,
@@ -73,6 +76,10 @@ dependencies {
             presentationDependencies.uiDependencies.liveData,
             presentationDependencies.uiDependencies.shimmer,
             presentationDependencies.uiDependencies.glide,
+            remoteDependencies.okHttpLoggingInterceptor,
+            remoteDependencies.okHttp,
+            remoteDependencies.retrofit,
+            remoteDependencies.retrofitConversion,
 
             project(":core"),
             project(":domain"),
