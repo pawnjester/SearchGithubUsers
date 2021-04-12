@@ -75,5 +75,6 @@ dependencies {
             testDependencies.androidXTestCore,
             testDependencies.roboelectric,
             testDependencies.truth,
+            testDependencies.mockWebServer
     )
 }

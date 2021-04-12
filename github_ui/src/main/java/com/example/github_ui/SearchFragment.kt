@@ -1,7 +1,6 @@
 package com.example.github_ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,20 +49,17 @@ class SearchFragment : Fragment() {
 
         setupRecyclerView()
 
-        if (savedInstanceState == null) {
-            lifecycleScope.launch {
-                binding.searchGithubEditText.textChange()
-                    .debounce(1000)
-                    .collect {
-                        if (it.length >= 3) {
-                            viewModel.setQueryInfo(it.toString())
-                            viewModel.searchGithubUsers()
-                        }
+        lifecycleScope.launch {
+            binding.searchGithubEditText.textChange()
+                .debounce(1000)
+                .collect {
+                    if (it.length >= 3) {
+                        viewModel.setQueryInfo(it.toString())
+                        viewModel.searchGithubUsers()
                     }
-            }
-        } else {
-            Log.e("rrr", "here")
+                }
         }
+
 
 
         lifecycleScope.launch {

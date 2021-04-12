@@ -43,6 +43,7 @@ ext {
     glide = "4.11.0"
     pagingVersion = "3.0.0-alpha07"
     lottieVersion = "3.7.0"
+    webServer = "4.7.2"
 
 
     roomDependencies = [
@@ -107,6 +108,7 @@ ext {
             hiltTesting     : "com.google.dagger:hilt-android-testing:${daggerCompilerVersion}",
             mockitoKotlin   : "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockitoKotlinVersion}",
             mockito         : "org.mockito:mockito-core:${mockitoVersion}",
-            konveyor        : "com.github.vacxe:konveyor:${konveyorVersion}"
+            konveyor        : "com.github.vacxe:konveyor:${konveyorVersion}",
+            mockWebServer : "com.squareup.okhttp3:mockwebserver:${webServer}"
     ]
 }
