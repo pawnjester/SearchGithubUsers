@@ -3,7 +3,6 @@ package com.example.github_ui.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.domain.model.GithubUser
-import com.example.domain.repositories.GithubUsersRepository
 import com.example.domain.usecases.DeleteFavoriteUseCase
 import com.example.domain.usecases.FavoriteUserUseCase
 import com.example.domain.usecases.GetFavoriteUsersUseCase
@@ -31,8 +30,6 @@ class FavoriteUserViewModelTest {
     @Mock
     lateinit var getUsers: GetFavoriteUsersUseCase
 
-    @Mock
-    lateinit var repository: GithubUsersRepository
 
     @Mock
     lateinit var favoriteUserUseCase: FavoriteUserUseCase
@@ -78,7 +75,6 @@ class FavoriteUserViewModelTest {
 
         sut.favoriteUser(usersModel, false)
         assertThat(usersModel.isFavorite).isEqualTo(false)
-//        verify(repository).favoriteUser(users)
     }
 
     @Test
