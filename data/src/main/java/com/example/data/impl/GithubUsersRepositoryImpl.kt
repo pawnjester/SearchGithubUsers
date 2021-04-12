@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 class GithubUsersRepositoryImpl @Inject constructor(
     private val mapper: GithubUserEntityMapper,
-    private val entityMapper: GithubUserEntityMapper,
     private val usersRemote: GithubRemote,
     private val usersCache: GithubCache
 ) : GithubUsersRepository {
@@ -32,7 +31,7 @@ class GithubUsersRepositoryImpl @Inject constructor(
                     }
                     mapper.mapFromEntity(entity)
                 }
-                GithubUserResponse(it.total_count, entityMapper.mapFromEntityList(it.items))
+                GithubUserResponse(it.total_count, mapper.mapFromEntityList(it.items))
             })
         }
     }
