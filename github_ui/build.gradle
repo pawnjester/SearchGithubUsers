@@ -64,6 +64,7 @@ dependencies {
             presentationDependencies.appDependencies.androidXViewModel,
             presentationDependencies.appDependencies.coroutines,
             presentationDependencies.appDependencies.coroutinesAndroid,
+            presentationDependencies.appDependencies.flowAndroid,
 
             presentationDependencies.uiDependencies.material,
             presentationDependencies.uiDependencies.navigationFragment,

@@ -11,12 +11,12 @@ import javax.inject.Inject
 class GetFavoriteUsersUseCase @Inject constructor(
     private val repository: GithubUsersRepository,
     private val postExecution: PostExecutorThread
-) : FlowUseCase<Nothing, List<GithubUser>>() {
+) : FlowUseCase<Unit, List<GithubUser>>() {
 
     override val dispatcher: CoroutineDispatcher
         get() = postExecution.io
 
-    override fun execute(params: Nothing?): Flow<List<GithubUser>> {
+    override fun execute(params: Unit?): Flow<List<GithubUser>> {
         return repository.getFavoriteUsers()
     }
 }

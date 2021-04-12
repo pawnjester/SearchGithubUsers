@@ -49,6 +49,7 @@ class SearchFragment : Fragment() {
 
         setupRecyclerView()
 
+
         lifecycleScope.launch {
             binding.searchGithubEditText.textChange()
                 .debounce(1000)
@@ -60,6 +61,15 @@ class SearchFragment : Fragment() {
                 }
         }
 
+//        lifecycleScope.launch {
+//            binding.searchGithubEditText.textChanges().skipInitialValue().debounce(1000)
+//                .collect {
+//                    if (it.length >= 3) {
+//                        viewModel.setQueryInfo(it.toString())
+//                        viewModel.searchGithubUsers()
+//                    }
+//            }
+//        }
 
 
         lifecycleScope.launch {

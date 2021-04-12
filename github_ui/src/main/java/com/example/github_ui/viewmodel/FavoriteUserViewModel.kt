@@ -34,7 +34,6 @@ class FavoriteUserViewModel @Inject constructor(
             }.collect {
                 _favoriteUsers.value = LatestUiState.Success(it)
             }
-
         }
     }
 
