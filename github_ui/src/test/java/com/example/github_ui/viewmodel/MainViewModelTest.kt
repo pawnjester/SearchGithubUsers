@@ -99,7 +99,7 @@ class MainViewModelTest {
 
         Mockito.`when`(favoriteUserUseCase(users)).thenReturn(Unit)
 
-        sut.favoriteUser(usersModel, false)
+        sut.favoriteUser(usersModel)
         assertThat(usersModel.isFavorite).isEqualTo(false)
     }
 
@@ -136,7 +136,7 @@ class MainViewModelTest {
 
         Mockito.`when`(favoriteUserUseCase(users)).thenReturn(Unit)
 
-        sut.favoriteUser(usersModel, false)
+        sut.favoriteUser(usersModel)
         assertThat(usersModel.isFavorite).isEqualTo(false)
     }
 
