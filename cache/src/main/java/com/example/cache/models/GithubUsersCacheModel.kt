@@ -11,7 +11,8 @@ data class GithubUsersCacheModel(
     val id: Int,
     val login: String,
     val avatarUrl: String,
-    val githubUrl: String
+    val githubUrl: String,
+    val isFavorite: Boolean
 ) {
     companion object {
         const val TABLE_NAME = "users"

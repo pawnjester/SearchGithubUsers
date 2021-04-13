@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,8 +15,8 @@ import com.example.github_ui.models.GithubUsersModel
 import com.example.github_ui.utils.MarginItemDecoration
 import com.example.github_ui.utils.observe
 import com.example.github_ui.utils.show
-import com.example.github_ui.viewmodel.FavoriteUserViewModel
 import com.example.github_ui.viewmodel.LatestUiState
+import com.example.github_ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -30,7 +30,7 @@ class FavoriteUserFragment : Fragment() {
     @Inject
     lateinit var favoriteUserAdapter: FavoriteUserAdapter
 
-    private val viewModel: FavoriteUserViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -56,8 +56,8 @@ class FavoriteUserFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        favoriteUserAdapter.favoriteUserCallback = { model, isFavorite ->
-            viewModel.favoriteUser(model, isFavorite)
+        favoriteUserAdapter.favoriteUserCallback = { model ->
+            viewModel.favoriteUserCache(model)
         }
 
         observe(viewModel.favoriteUsers, ::subscribeToUi)

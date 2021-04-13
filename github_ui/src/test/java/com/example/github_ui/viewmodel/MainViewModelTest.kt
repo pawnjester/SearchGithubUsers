@@ -3,6 +3,7 @@ package com.example.github_ui.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateHandle
+import com.example.domain.model.GithubUser
 import com.example.domain.usecases.*
 import com.example.github_ui.MainCoroutineRule
 import com.example.github_ui.mappers.DummyData
@@ -32,6 +33,9 @@ class MainViewModelTest {
 
     @Mock
     lateinit var favoriteUserUseCase: FavoriteUserUseCase
+
+    @Mock
+    lateinit var getUsers: GetFavoriteUsersUseCase
 
     @Mock
     lateinit var deleteFavoritesUseCase: DeleteFavoriteUseCase
@@ -69,7 +73,7 @@ class MainViewModelTest {
             searchUsers,
             loadMore, favoriteUserUseCase,
             deleteFavoritesUseCase, mapper,
-            savedStateHandle, checkFavoriteStatusUseCase
+            savedStateHandle, checkFavoriteStatusUseCase, getUsers
         )
     }
 
@@ -121,5 +125,34 @@ class MainViewModelTest {
         Mockito.verify(uiObserver, times(1)).onChanged(captorUI.capture())
 
         assertThat(captorUI.value).isEqualTo(model)
+    }
+
+    @Test
+    fun `test to confirm a user`() = runBlocking {
+        sut.favoriteUsers.observeForever(uiObserver)
+
+        val users = DummyData.makeGithubUser()
+        val usersModel = makeGithubUserModel()
+
+        Mockito.`when`(favoriteUserUseCase(users)).thenReturn(Unit)
+
+        sut.favoriteUser(usersModel, false)
+        assertThat(usersModel.isFavorite).isEqualTo(false)
+    }
+
+    @Test
+    fun `test to get favorite users`() = runBlocking {
+        sut.favoriteUsers.observeForever(uiObserver)
+
+        val users: List<GithubUser> = DummyData.makeGithubUserList(1)
+
+        Mockito.`when`(getUsers()).thenReturn(
+            flow {
+                emit(users)
+            }
+        )
+        sut.getFavoriteUsers()
+        Mockito.verify(uiObserver, times(1)).onChanged(captorUI.capture())
+        sut.favoriteUsers.removeObserver(uiObserver)
     }
 }

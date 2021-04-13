@@ -7,20 +7,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.github_ui.R
 import com.example.github_ui.databinding.ItemUsersBinding
 import com.example.github_ui.models.GithubUsersModel
-import com.example.github_ui.utils.FavoriteUserCallback
+import com.example.github_ui.utils.FavoriteUserCacheCallback
 import com.example.github_ui.utils.OpenUserDetailsCallback
 import com.example.github_ui.utils.loadImage
 
 class FavoriteUserViewHolder(
     private val binding: ItemUsersBinding,
     private val openUsersDetailsCallback: OpenUserDetailsCallback,
-    private val favoriteUserCallback: FavoriteUserCallback,
+    private val favoriteUserCallback: FavoriteUserCacheCallback,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private var isFavorite = false
+//    private var isFavorite = false
 
     fun bind(item: GithubUsersModel) {
-        isFavorite = item.isFavorite
+//        isFavorite = item.isFavorite
 
         item.run {
             binding.imageUser.loadImage(avatarUrl)
@@ -31,8 +31,8 @@ class FavoriteUserViewHolder(
             }
             binding.favoriteUser.setImageDrawable(ResourcesCompat.getDrawable(itemView.resources, R.drawable.ic_red_favorite, null))
             binding.favoriteUser.setOnClickListener {
-                isFavorite = !isFavorite
-                favoriteUserCallback.invoke(item, isFavorite)
+//                isFavorite = !isFavorite
+                favoriteUserCallback.invoke(item)
             }
         }
 
@@ -42,7 +42,7 @@ class FavoriteUserViewHolder(
         fun create(
             parent: ViewGroup,
             openUsersDetailsCallback: OpenUserDetailsCallback,
-            favoriteUserCallback: FavoriteUserCallback
+            favoriteUserCallback: FavoriteUserCacheCallback
         ): FavoriteUserViewHolder {
             val binding = ItemUsersBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return FavoriteUserViewHolder(binding, openUsersDetailsCallback, favoriteUserCallback)
