@@ -129,7 +129,6 @@ class MainViewModel @Inject constructor(
             } else {
                 deleteFavoritesUseCase(mapper.mapToDomain(user))
             }
-
         }
     }
 

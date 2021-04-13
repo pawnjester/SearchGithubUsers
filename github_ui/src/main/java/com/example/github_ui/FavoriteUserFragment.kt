@@ -1,9 +1,7 @@
 package com.example.github_ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -15,31 +13,22 @@ import com.example.github_ui.models.GithubUsersModel
 import com.example.github_ui.utils.MarginItemDecoration
 import com.example.github_ui.utils.observe
 import com.example.github_ui.utils.show
+import com.example.github_ui.utils.viewBinding
 import com.example.github_ui.viewmodel.LatestUiState
 import com.example.github_ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FavoriteUserFragment : Fragment() {
+class FavoriteUserFragment : Fragment(R.layout.fragment_favorite_user) {
 
-    private var _binding: FragmentFavoriteUserBinding? = null
 
-    private val binding get() = _binding!!
+    private val binding: FragmentFavoriteUserBinding by viewBinding(FragmentFavoriteUserBinding::bind)
 
     @Inject
     lateinit var favoriteUserAdapter: FavoriteUserAdapter
 
     private val viewModel: MainViewModel by activityViewModels()
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentFavoriteUserBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -81,11 +70,5 @@ class FavoriteUserFragment : Fragment() {
                 }
             }
         }
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

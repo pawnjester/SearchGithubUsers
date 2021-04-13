@@ -23,12 +23,8 @@ class GithubUsersRepositoryImpl @Inject constructor(
         return flow {
             emitAll(usersRemote.searchUsers(query, pageNumber).map {
                 it.items.map { entity: GithubUserEntity ->
-                    val checkUser: Boolean = usersCache.checkIfUserExist(entity.id)
-                    if (checkUser) {
-                        entity.apply { isFavorite = true }
-                    } else {
-                        entity.apply { isFavorite = false }
-                    }
+                    val isFavoriteUser: Boolean = usersCache.checkIfUserExist(entity.id)
+                    entity.apply { isFavorite = isFavoriteUser }
                     mapper.mapFromEntity(entity)
                 }
                 GithubUserResponse(it.total_count, mapper.mapFromEntityList(it.items))
