@@ -24,25 +24,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private val viewModel: MainViewModel by activityViewModels()
 
-    private var _binding: FragmentSearchBinding? = null
-
-    private val binding get() = _binding!!
+    private val binding: FragmentSearchBinding by viewBinding(FragmentSearchBinding::bind)
 
     @Inject
     lateinit var usersAdapter: UsersAdapter
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -78,8 +67,8 @@ class SearchFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        usersAdapter.favoriteUsersCallback = { recipeModel, isFavorite ->
-            viewModel.favoriteUser(recipeModel, isFavorite)
+        usersAdapter.favoriteUsersCallback = { user ->
+            viewModel.favoriteUser(user)
         }
 
         observe(viewModel.users, ::subscribeToUi)
@@ -130,11 +119,5 @@ class SearchFragment : Fragment() {
                 binding.loadMore.show(false)
             }
         }
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

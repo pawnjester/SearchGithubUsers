@@ -1,9 +1,7 @@
 package com.example.github_ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
@@ -13,28 +11,20 @@ import com.example.github_ui.databinding.FragmentDetailBinding
 import com.example.github_ui.models.GithubUsersModel
 import com.example.github_ui.utils.loadImage
 import com.example.github_ui.utils.observe
+import com.example.github_ui.utils.viewBinding
 import com.example.github_ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailFragment : Fragment() {
+class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val userArgs: DetailFragmentArgs by navArgs()
 
     private val viewModel: MainViewModel by activityViewModels()
 
-    private var _binding: FragmentDetailBinding? = null
 
-    private val binding get() = _binding!!
+    private val binding: FragmentDetailBinding by viewBinding(FragmentDetailBinding::bind)
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentDetailBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

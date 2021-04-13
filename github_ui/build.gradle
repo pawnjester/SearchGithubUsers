@@ -77,6 +77,7 @@ dependencies {
             presentationDependencies.uiDependencies.liveData,
             presentationDependencies.uiDependencies.shimmer,
             presentationDependencies.uiDependencies.glide,
+            presentationDependencies.uiDependencies.lifeCycle,
             remoteDependencies.okHttpLoggingInterceptor,
             remoteDependencies.okHttp,
             remoteDependencies.retrofit,

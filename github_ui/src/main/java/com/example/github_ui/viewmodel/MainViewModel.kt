@@ -41,10 +41,9 @@ class MainViewModel @Inject constructor(
     private var _user = MutableLiveData<GithubUsersModel>()
     var user: LiveData<GithubUsersModel> = _user
 
-    private val _isFavorite: LiveData<Boolean> = Transformations.switchMap(_user) {
+    val isFavorite: LiveData<Boolean> = Transformations.switchMap(_user) {
         checkFavoritesUseCase(it.id).asLiveData()
     }
-    val isFavorite: LiveData<Boolean> = Transformations.map(_isFavorite) { it }
 
     private var count = 0
 
@@ -54,10 +53,8 @@ class MainViewModel @Inject constructor(
         savedStateHandle.getLiveData("query")
 
 
-    fun setUserDetail(user: GithubUsersModel?) {
-        user?.let {
-            _user.value = it
-        }
+    fun setUserDetail(user: GithubUsersModel) {
+        _user.value = user
     }
 
 
@@ -83,12 +80,12 @@ class MainViewModel @Inject constructor(
         )
         viewModelScope.launch {
             searchUsers(params)
-                .map {
-                    count = it.total_count
-                    mapper.mapToModelList(it.items)
-                }
                 .catch {
                     _users.value = LatestUiState.Error("Cannot fetch users")
+                }
+                .map {
+                    count = it.totalCount
+                    mapper.mapToModelList(it.items)
                 }
                 .collect {
                     usersList.clear()
@@ -108,11 +105,11 @@ class MainViewModel @Inject constructor(
         )
         viewModelScope.launch {
             loadMore(params)
-                .map {
-                    mapper.mapToModelList(it.items)
-                }
                 .catch {
                     _users.value = LatestUiState.Error("Cannot fetch more users")
+                }
+                .map {
+                    mapper.mapToModelList(it.items)
                 }
                 .collect {
                     _isLoadingMore.value = false
@@ -125,9 +122,9 @@ class MainViewModel @Inject constructor(
 
     private fun shouldFetch() = usersList.size < count
 
-    fun favoriteUser(user: GithubUsersModel, isFavorite: Boolean) {
+    fun favoriteUser(user: GithubUsersModel) {
         viewModelScope.launch {
-            if (isFavorite) {
+            if (user.isFavorite) {
                 favoriteUserUseCase(mapper.mapToDomain(user))
             } else {
                 deleteFavoritesUseCase(mapper.mapToDomain(user))
@@ -138,18 +135,19 @@ class MainViewModel @Inject constructor(
 
     fun getFavoriteUsers() {
         viewModelScope.launch {
-            getUsers().map {
-                mapper.mapToModelList(it)
-            }.collect {
-                _favoriteUsers.value = LatestUiState.Success(it)
-            }
+            getUsers()
+                .map {
+                    mapper.mapToModelList(it)
+                }.collect {
+                    _favoriteUsers.value = LatestUiState.Success(it)
+                }
         }
     }
 
     fun favoriteUserDetail(user: GithubUsersModel) {
         user.apply { isFavorite = !isFavorite }
         viewModelScope.launch {
-            if (_isFavorite.value == true) {
+            if (isFavorite.value == true) {
                 deleteFavoritesUseCase(mapper.mapToDomain(user))
             } else {
                 favoriteUserUseCase(mapper.mapToDomain(user))

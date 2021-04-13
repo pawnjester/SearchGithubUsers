@@ -11,7 +11,7 @@ class GithubUserResponseModelMapper @Inject constructor(
     override fun mapToModel(domain: GithubUserResponse): GithubUsersResponseModel {
         return domain.run {
             GithubUsersResponseModel(
-                domain.total_count,
+                domain.totalCount,
                 mapper.mapToModelList(domain.items)
             )
         }
