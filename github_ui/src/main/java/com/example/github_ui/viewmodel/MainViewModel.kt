@@ -1,13 +1,7 @@
 package com.example.github_ui.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.domain.usecases.DeleteFavoriteUseCase
-import com.example.domain.usecases.FavoriteUserUseCase
-import com.example.domain.usecases.LoadMoreUsersUseCase
-import com.example.domain.usecases.SearchUsersUseCase
+import androidx.lifecycle.*
+import com.example.domain.usecases.*
 import com.example.github_ui.mappers.GithubUsersModelMapper
 import com.example.github_ui.models.GithubUsersModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +17,9 @@ class MainViewModel @Inject constructor(
     private val loadMore: LoadMoreUsersUseCase,
     private val favoriteUserUseCase: FavoriteUserUseCase,
     private val deleteFavoritesUseCase: DeleteFavoriteUseCase,
-    private val mapper: GithubUsersModelMapper
+    private val mapper: GithubUsersModelMapper,
+    private val savedStateHandle: SavedStateHandle,
+    private val checkFavoritesUseCase: CheckFavoriteStatusUseCase,
 ) : ViewModel() {
 
     private val _users = MutableLiveData<LatestUiState<List<GithubUsersModel>>>()
@@ -35,23 +31,60 @@ class MainViewModel @Inject constructor(
 
     private var currentPage: Int = 1
 
-    private var queryItem: String = ""
-
     private val _isLoadingMore = MutableLiveData<Boolean>()
     val isLoadingMore: LiveData<Boolean> = _isLoadingMore
 
     private var count = 0
 
-    fun setQueryInfo(query: String) {
-        queryItem = query
+    private var lastQuery: String? = null
+
+    private val queryValue: MutableLiveData<String> =
+        savedStateHandle.getLiveData("query")
+
+    private var _user = MutableLiveData<GithubUsersModel>()
+    var user: LiveData<GithubUsersModel> = _user
+
+    private val _isFavorite: LiveData<Boolean> = Transformations.switchMap(_user) {
+        checkFavoritesUseCase(it.id).asLiveData()
+    }
+    val isFavorite: LiveData<Boolean> = Transformations.map(_isFavorite) { it }
+
+    fun setUserDetail(user: GithubUsersModel?) {
+        user?.let {
+            _user.value = it
+        }
     }
 
+    fun favoriteUserDetail(user: GithubUsersModel) {
+        viewModelScope.launch {
+            if (_isFavorite.value == true) {
+                deleteFavoritesUseCase(mapper.mapToDomain(user))
+            } else {
+                favoriteUserUseCase(mapper.mapToDomain(user))
+            }
+            _user.value = user
+            toggleSelectedItem(user)
+        }
+    }
+
+    fun setQueryInfo(query: String) {
+        savedStateHandle["query"] = query
+        if (query == lastQuery) return
+
+        query.also {
+            lastQuery = it
+            queryValue.value = it
+        }
+        searchGithubUsers()
+    }
 
     fun searchGithubUsers() {
+        if (lastQuery.isNullOrEmpty()) return
+
         _users.value = LatestUiState.Loading
         currentPage = 1
         params = SearchUsersUseCase.Params(
-            query = queryItem,
+            query = lastQuery ?: "",
             pageNumber = currentPage
         )
         viewModelScope.launch {
@@ -76,7 +109,7 @@ class MainViewModel @Inject constructor(
             _isLoadingMore.value = true
         }
         params = SearchUsersUseCase.Params(
-            query = queryItem,
+            query = lastQuery ?: "",
             pageNumber = currentPage + 1
         )
         viewModelScope.launch {
@@ -97,6 +130,13 @@ class MainViewModel @Inject constructor(
     }
 
     private fun shouldFetch() = usersList.size < count
+
+    private fun toggleSelectedItem(item: GithubUsersModel) {
+        usersList.find {
+            it.id == item.id
+        }?.isFavorite = !item.isFavorite
+        _users.value = LatestUiState.Success(usersList)
+    }
 
     fun favoriteUser(user: GithubUsersModel, isFavorite: Boolean) {
         viewModelScope.launch {

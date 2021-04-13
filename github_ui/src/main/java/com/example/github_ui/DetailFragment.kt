@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.example.github_ui.databinding.FragmentDetailBinding
 import com.example.github_ui.models.GithubUsersModel
 import com.example.github_ui.utils.loadImage
 import com.example.github_ui.utils.observe
-import com.example.github_ui.viewmodel.DetailViewModel
+import com.example.github_ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,7 +21,7 @@ class DetailFragment : Fragment() {
 
     private val userArgs: DetailFragmentArgs by navArgs()
 
-    private val viewModel: DetailViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
 
     private var _binding: FragmentDetailBinding? = null
 
@@ -44,7 +44,7 @@ class DetailFragment : Fragment() {
         }
 
         binding.toolbar.menu?.get(0)?.setOnMenuItemClickListener {
-            viewModel.favoriteUser(userArgs.user)
+            viewModel.favoriteUserDetail(userArgs.user)
             return@setOnMenuItemClickListener true
         }
 

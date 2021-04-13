@@ -17,19 +17,22 @@
 
     <View
         android:id="@+id/view3"
-        android:layout_width="250dp"
+        android:layout_width="0dp"
         android:layout_height="10dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/colorSilver"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/view2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/view4"
-        android:layout_width="250dp"
+        android:layout_width="0dp"
         android:layout_height="10dp"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/colorSilver"
         app:layout_constraintEnd_toEndOf="@+id/view3"
         app:layout_constraintStart_toStartOf="@+id/view3"

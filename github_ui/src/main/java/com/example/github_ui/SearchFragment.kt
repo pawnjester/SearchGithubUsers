@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +26,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
 
     private var _binding: FragmentSearchBinding? = null
 
@@ -56,20 +56,9 @@ class SearchFragment : Fragment() {
                 .collect {
                     if (it.length >= 3) {
                         viewModel.setQueryInfo(it.toString())
-                        viewModel.searchGithubUsers()
                     }
                 }
         }
-
-//        lifecycleScope.launch {
-//            binding.searchGithubEditText.textChanges().skipInitialValue().debounce(1000)
-//                .collect {
-//                    if (it.length >= 3) {
-//                        viewModel.setQueryInfo(it.toString())
-//                        viewModel.searchGithubUsers()
-//                    }
-//            }
-//        }
 
 
         lifecycleScope.launch {

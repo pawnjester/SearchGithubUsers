@@ -2,10 +2,8 @@ package com.example.github_ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.domain.usecases.DeleteFavoriteUseCase
-import com.example.domain.usecases.FavoriteUserUseCase
-import com.example.domain.usecases.LoadMoreUsersUseCase
-import com.example.domain.usecases.SearchUsersUseCase
+import androidx.lifecycle.SavedStateHandle
+import com.example.domain.usecases.*
 import com.example.github_ui.MainCoroutineRule
 import com.example.github_ui.mappers.DummyData
 import com.example.github_ui.mappers.DummyData.makeGithubUserModel
@@ -42,7 +40,16 @@ class MainViewModelTest {
     lateinit var mapper: GithubUsersModelMapper
 
     @Mock
+    lateinit var savedStateHandle: SavedStateHandle
+
+    @Mock
+    lateinit var checkFavoriteStatusUseCase: CheckFavoriteStatusUseCase
+
+    @Mock
     lateinit var uiObserver: Observer<LatestUiState<List<GithubUsersModel>>>
+
+    @Mock
+    lateinit var detailObserver: Observer<GithubUsersModel>
 
     @Captor
     private lateinit var captorUI: ArgumentCaptor<LatestUiState<List<GithubUsersModel>>>
@@ -58,7 +65,12 @@ class MainViewModelTest {
     fun setup() {
         MockitoAnnotations.initMocks(this)
 
-        sut = MainViewModel(searchUsers, loadMore, favoriteUserUseCase, deleteFavoritesUseCase, mapper)
+        sut = MainViewModel(
+            searchUsers,
+            loadMore, favoriteUserUseCase,
+            deleteFavoritesUseCase, mapper,
+            savedStateHandle, checkFavoriteStatusUseCase
+        )
     }
 
     @Test
@@ -85,5 +97,29 @@ class MainViewModelTest {
 
         sut.favoriteUser(usersModel, false)
         assertThat(usersModel.isFavorite).isEqualTo(false)
+    }
+
+    @Test
+    fun `set user details`() {
+        sut.user.observeForever(detailObserver)
+
+        val model = makeGithubUserModel()
+
+        sut.setUserDetail(model)
+        Mockito.verify(uiObserver, times(1)).onChanged(captorUI.capture())
+
+        assertThat(captorUI.value).isEqualTo(model)
+    }
+
+    @Test
+    fun `favorite user`() {
+        sut.user.observeForever(detailObserver)
+
+        val model = makeGithubUserModel()
+
+        sut.favoriteUserDetail(model)
+        Mockito.verify(uiObserver, times(1)).onChanged(captorUI.capture())
+
+        assertThat(captorUI.value).isEqualTo(model)
     }
 }
