@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.github_ui.R
 import com.example.github_ui.databinding.ItemUsersBinding
 import com.example.github_ui.models.GithubUsersModel
-import com.example.github_ui.utils.FavoriteUserCacheCallback
+import com.example.github_ui.utils.FavoriteUserCallback
 import com.example.github_ui.utils.OpenUserDetailsCallback
 import com.example.github_ui.utils.loadImage
 
 class FavoriteUserViewHolder(
     private val binding: ItemUsersBinding,
     private val openUsersDetailsCallback: OpenUserDetailsCallback,
-    private val favoriteUserCallback: FavoriteUserCacheCallback,
+    private val favoriteUserCallback: FavoriteUserCallback,
 ) : RecyclerView.ViewHolder(binding.root) {
 
 
@@ -39,7 +39,7 @@ class FavoriteUserViewHolder(
         fun create(
             parent: ViewGroup,
             openUsersDetailsCallback: OpenUserDetailsCallback,
-            favoriteUserCallback: FavoriteUserCacheCallback
+            favoriteUserCallback: FavoriteUserCallback
         ): FavoriteUserViewHolder {
             val binding = ItemUsersBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return FavoriteUserViewHolder(binding, openUsersDetailsCallback, favoriteUserCallback)

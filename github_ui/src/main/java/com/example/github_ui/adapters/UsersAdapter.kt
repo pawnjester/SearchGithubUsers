@@ -35,7 +35,7 @@ class UsersAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.Vie
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is UserViewHolder -> holder.bind(listOfUsers[position])
-            is EmptyStateViewHolder -> holder.bind()
+            is EmptyStateViewHolder -> holder.bind(true)
         }
     }
 

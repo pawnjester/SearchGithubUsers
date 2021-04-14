@@ -57,6 +57,7 @@ class MainViewModel @Inject constructor(
         _user.value = user
     }
 
+    private fun shouldFetch() = usersList.size < count
 
     fun setQueryInfo(query: String) {
         savedStateHandle["query"] = query
@@ -119,8 +120,17 @@ class MainViewModel @Inject constructor(
                 }
         }
     }
+    fun getFavoriteUsers() {
+        viewModelScope.launch {
+            getUsers()
+                .map {
+                    mapper.mapToModelList(it)
+                }.collect {
+                    _favoriteUsers.value = LatestUiState.Success(it)
+                }
+        }
+    }
 
-    private fun shouldFetch() = usersList.size < count
 
     fun favoriteUser(user: GithubUsersModel) {
         viewModelScope.launch {
@@ -132,16 +142,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getFavoriteUsers() {
-        viewModelScope.launch {
-            getUsers()
-                .map {
-                    mapper.mapToModelList(it)
-                }.collect {
-                    _favoriteUsers.value = LatestUiState.Success(it)
-                }
-        }
-    }
 
     fun favoriteUserDetail(user: GithubUsersModel) {
         user.apply { isFavorite = !isFavorite }

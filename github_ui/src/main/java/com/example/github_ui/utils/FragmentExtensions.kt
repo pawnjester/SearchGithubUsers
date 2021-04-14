@@ -1,11 +1,6 @@
 package com.example.github_ui.utils
 
-import android.os.Build
-import android.text.Html
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer

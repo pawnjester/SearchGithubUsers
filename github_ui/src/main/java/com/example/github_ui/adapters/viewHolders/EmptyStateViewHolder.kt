@@ -8,10 +8,11 @@ import com.example.github_ui.databinding.EmptyStateViewholderBinding
 
 class EmptyStateViewHolder(private val binding: EmptyStateViewholderBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind() {
+    fun bind(noSearchResult: Boolean) {
         binding.run {
             animationView.setAnimation(R.raw.empty_state)
             animationView.playAnimation()
+            emptyText.text = if (noSearchResult) "No Results, search for another user!" else "You have not favorited anything yet"
         }
     }
 

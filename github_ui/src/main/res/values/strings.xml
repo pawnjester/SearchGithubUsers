@@ -8,4 +8,5 @@
     <string name="favorites_menu">Favorite</string>
     <string name="user_image">User Image</string>
     <string name="no_results_hint">No Results, search for another user!</string>
+    <string name="empty_favorites">You have not favorited anything yet</string>
 </resources>

@@ -2,11 +2,11 @@ package com.example.github_ui.utils
 
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
-import androidx.lifecycle.DefaultLifecycleObserver
 import kotlin.reflect.KProperty
 
 /**
