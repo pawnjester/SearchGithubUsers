@@ -1,6 +1,6 @@
 package com.example.github_ui
 
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
@@ -33,15 +33,15 @@ class SearchFragmentTest {
     @Test
     fun should_show_initial_state() {
         launchFragmentInHiltContainer<SearchFragment>()
-        Espresso.onView(withId(R.id.search_github_edit_text)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(withId(R.id.header)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.search_github_edit_text)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.header)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
     @Test
     fun should_show_data_when_search_is_performed() {
         launchFragmentInHiltContainer<SearchFragment>()
-        Espresso.onView(withId(R.id.search_github_edit_text)).perform(ViewActions.typeText("pawnjester"))
-        Espresso.onView(withId(R.id.rv_github_users)).check(RecyclerViewItemCountAssertion(1));
+        onView(withId(R.id.search_github_edit_text)).perform(ViewActions.typeText("pawnjester"))
+        onView(withId(R.id.rv_github_users)).check(RecyclerViewItemCountAssertion(1));
     }
 
 }
