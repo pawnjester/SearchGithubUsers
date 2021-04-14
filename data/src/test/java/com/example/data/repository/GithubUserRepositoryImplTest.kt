@@ -45,7 +45,7 @@ class GithubUserRepositoryImplTest {
     fun `check that search users`() = runBlocking {
         val result = repository.searchUsers("pawnjester", 1).first()
 
-        assertThat(result.total_count).isEqualTo(1)
+        assertThat(result.totalCount).isEqualTo(1)
         assertThat(result.items).isNotEmpty()
     }
 }

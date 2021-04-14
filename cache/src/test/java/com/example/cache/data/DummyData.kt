@@ -19,6 +19,6 @@ object DummyData {
     }
 
     fun makeGithubUserCacheModel(): GithubUsersCacheModel {
-        return GithubUsersCacheModel(1, "name", "picture", "url")
+        return GithubUsersCacheModel(1, "name", "picture", "url", false)
     }
 }
