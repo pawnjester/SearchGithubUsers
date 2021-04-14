@@ -120,6 +120,7 @@ class MainViewModel @Inject constructor(
                 }
         }
     }
+
     fun getFavoriteUsers() {
         viewModelScope.launch {
             getUsers()
@@ -134,17 +135,17 @@ class MainViewModel @Inject constructor(
 
     fun favoriteUser(user: GithubUsersModel) {
         viewModelScope.launch {
-            if (user.isFavorite) {
+            if (!user.isFavorite) {
                 favoriteUserUseCase(mapper.mapToDomain(user))
             } else {
                 deleteFavoritesUseCase(mapper.mapToDomain(user))
             }
+            toggleSelectedItem(user)
         }
     }
 
 
     fun favoriteUserDetail(user: GithubUsersModel) {
-        user.apply { isFavorite = !isFavorite }
         viewModelScope.launch {
             if (isFavorite.value == true) {
                 deleteFavoritesUseCase(mapper.mapToDomain(user))
@@ -152,22 +153,14 @@ class MainViewModel @Inject constructor(
                 favoriteUserUseCase(mapper.mapToDomain(user))
             }
             _user.value = user
-            toggleSelectedItem(user, true)
+            toggleSelectedItem(user)
         }
     }
 
-    fun favoriteUserCache(user: GithubUsersModel) {
-        viewModelScope.launch {
-            deleteFavoritesUseCase(mapper.mapToDomain(user))
-            toggleSelectedItem(user, false)
-        }
-    }
-
-    private fun toggleSelectedItem(item: GithubUsersModel, isFromCache: Boolean) {
-        val cache = if (isFromCache) item.isFavorite else !item.isFavorite
+    private fun toggleSelectedItem(item: GithubUsersModel) {
         usersList.find {
             it.id == item.id
-        }?.isFavorite = cache
+        }?.isFavorite = item.isFavorite.not()
         _users.value = LatestUiState.Success(usersList)
     }
 }

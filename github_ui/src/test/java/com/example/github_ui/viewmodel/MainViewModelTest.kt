@@ -131,7 +131,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `test to confirm a user`() = runBlocking {
+    fun `test to confirm favoriting a user`() = runBlocking {
         sut.favoriteUsers.observeForever(uiObserver)
 
         val users = DummyData.makeGithubUser()

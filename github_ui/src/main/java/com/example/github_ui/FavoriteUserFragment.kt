@@ -46,7 +46,7 @@ class FavoriteUserFragment : Fragment(R.layout.fragment_favorite_user) {
         }
 
         favoriteUserAdapter.favoriteUserCallback = { model ->
-            viewModel.favoriteUserCache(model)
+            viewModel.favoriteUser(model)
         }
 
         observe(viewModel.favoriteUsers, ::subscribeToUi)

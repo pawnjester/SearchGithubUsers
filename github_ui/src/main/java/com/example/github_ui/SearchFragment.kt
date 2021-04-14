@@ -38,7 +38,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         setupRecyclerView()
 
-
         lifecycleScope.launch {
             binding.searchGithubEditText.textChange()
                 .debounce(1000)

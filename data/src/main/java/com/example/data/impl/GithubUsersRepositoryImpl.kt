@@ -33,6 +33,7 @@ class GithubUsersRepositoryImpl @Inject constructor(
     }
 
     override suspend fun favoriteUser(user: GithubUser) {
+        user.apply { isFavorite = isFavorite.not() }
         usersCache.saveUser(mapper.mapToEntity(user))
     }
 

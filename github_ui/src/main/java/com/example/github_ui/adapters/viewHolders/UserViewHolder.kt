@@ -28,7 +28,6 @@ class UserViewHolder(
             }
             binding.favoriteUser.setImageDrawable(setFavoriteIconColor(item))
             binding.favoriteUser.setOnClickListener {
-                item.apply { isFavorite = isFavorite.not() }
                 favoriteUserCallback.invoke(item)
                 binding.favoriteUser.setImageDrawable(setFavoriteIconColor(item))
             }
