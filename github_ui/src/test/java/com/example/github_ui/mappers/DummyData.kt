@@ -19,7 +19,7 @@ object DummyData {
         return GithubUserResponse(1, makeGithubUserList(1))
     }
 
-    fun makeGithubUsersModelList(count: Int): List<GithubUsersModel> {
+    private fun makeGithubUsersModelList(count: Int): List<GithubUsersModel> {
         val list = mutableListOf<GithubUsersModel>()
         repeat(count) {
             list.add(makeGithubUserModel())

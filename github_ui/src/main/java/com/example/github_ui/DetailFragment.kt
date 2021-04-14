@@ -22,7 +22,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val viewModel: MainViewModel by activityViewModels()
 
-
     private val binding: FragmentDetailBinding by viewBinding(FragmentDetailBinding::bind)
 
 

@@ -38,8 +38,6 @@ class MainViewModelTest {
     @Mock
     lateinit var getUsers: GetFavoriteUsersUseCase
 
-
-
     @Mock
     lateinit var deleteFavoritesUseCase: DeleteFavoriteUseCase
 
@@ -80,7 +78,6 @@ class MainViewModelTest {
             deleteFavoritesUseCase, mapper,
             savedStateHandle, checkFavoriteStatusUseCase, getUsers
         )
-        savedStateHandle["query"] = "test"
     }
 
     @Test
@@ -93,8 +90,8 @@ class MainViewModelTest {
                 emit(makeGithubUserResponse())
             }
         )
-        sut.searchGithubUsers()
-//        Mockito.verify(uiObserver, times(2)).onChanged(captorUI.capture())
+        sut.setQueryInfo("pawnjester")
+        Mockito.verify(uiObserver, times(2)).onChanged(captorUI.capture())
     }
 
     @Test
