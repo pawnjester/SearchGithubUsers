@@ -45,6 +45,7 @@ ext {
     lottieVersion = "3.7.0"
     webServer = "4.7.2"
     flowBinding = "1.0.0"
+    mockkVersion = "1.11.0"
 
 
     roomDependencies = [
@@ -88,7 +89,7 @@ ext {
             androidLegacy     : "androidx.legacy:legacy-support-v4:${legacyVersion}",
             appCompat         : "androidx.appcompat:appcompat:${appCompatVersion}",
             liveData          : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
-            lifeCycle        : "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion",
+            lifeCycle         : "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion",
             shimmer           : "com.facebook.shimmer:shimmer:$shimmerVersion",
             glide             : "com.github.bumptech.glide:glide:${glide}",
             lottie            : "com.airbnb.android:lottie:${lottieVersion}"
@@ -112,6 +113,7 @@ ext {
             mockitoKotlin   : "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockitoKotlinVersion}",
             mockito         : "org.mockito:mockito-core:${mockitoVersion}",
             konveyor        : "com.github.vacxe:konveyor:${konveyorVersion}",
-            mockWebServer   : "com.squareup.okhttp3:mockwebserver:${webServer}"
+            mockWebServer   : "com.squareup.okhttp3:mockwebserver:${webServer}",
+            mockk           : "io.mockk:mockk:${mockkVersion}"
     ]
 }

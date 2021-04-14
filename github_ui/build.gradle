@@ -120,6 +120,7 @@ dependencies {
             testDependencies.mockito,
             testDependencies.coroutinesTest,
             testDependencies.konveyor,
+            testDependencies.mockk,
             presentationDependencies.testDependencies.jUnit,
             presentationDependencies.testDependencies.roboelectric,
             presentationDependencies.testDependencies.jUnitX,
