@@ -12,7 +12,7 @@ class EmptyStateViewHolder(private val binding: EmptyStateViewholderBinding) : R
         binding.run {
             animationView.setAnimation(R.raw.empty_state)
             animationView.playAnimation()
-            emptyText.text = if (noSearchResult) "No Results, search for another user!" else "You have not favorited anything yet"
+            emptyText.text = if (noSearchResult) "No Results, search for a user!" else "You have not favorited anything yet"
         }
     }
 
