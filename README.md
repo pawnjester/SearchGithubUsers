@@ -23,10 +23,11 @@ This app is a simple application that allows the user to search and save github 
 
 ## How to make use of the app
 - Clone this repo
-- Generate a Github Token for authentication and include it in the local properties as apikey=**********
+- Generate a Github Token for authentication and include it in the local properties as `apikey=**********`
 
 ## How to run tests
   - For unit Tests, you can either run a project wide test using `./gradlew test` or go to the `domain`, `data`, `Cache` and `Github_ui` Modules to run them individually.
+  - UI tests are located in `github_ui/src/AndroidTest`
 
 
 ### Created by Okonji Emmanuel
