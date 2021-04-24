@@ -1,8 +1,7 @@
-package com.example.searchgithubusers.usecases
+package com.example.domain.usecases
 
-import com.example.domain.repositories.GithubUsersRepository
-import com.example.domain.usecases.GetFavoriteUsersUseCase
 import com.example.domain.fakes.DummyData
+import com.example.domain.repositories.GithubUsersRepository
 import com.example.searchgithubusers.fakes.TestPostExecutionThread
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
@@ -22,7 +21,7 @@ class GetFavoriteUsersUseCaseTest {
 
     @Before
     fun setup() {
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
         sut = GetFavoriteUsersUseCase(repository, TestPostExecutionThread())
     }
 

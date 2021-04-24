@@ -18,7 +18,6 @@ class MainViewModel @Inject constructor(
     private val favoriteUserUseCase: FavoriteUserUseCase,
     private val deleteFavoritesUseCase: DeleteFavoriteUseCase,
     private val mapper: GithubUsersModelMapper,
-    private val savedStateHandle: SavedStateHandle,
     private val checkFavoritesUseCase: CheckFavoriteStatusUseCase,
     private val getUsers: GetFavoriteUsersUseCase
 ) : ViewModel() {
@@ -49,9 +48,6 @@ class MainViewModel @Inject constructor(
 
     private var lastQuery: String? = null
 
-    private val queryValue: MutableLiveData<String> =
-        savedStateHandle.getLiveData("query")
-
 
     fun setUserDetail(user: GithubUsersModel) {
         _user.value = user
@@ -60,12 +56,10 @@ class MainViewModel @Inject constructor(
     private fun shouldFetch() = usersList.size < count
 
     fun setQueryInfo(query: String) {
-        savedStateHandle["query"] = query
         if (query == lastQuery) return
 
         query.also {
             lastQuery = it
-            queryValue.value = it
         }
         searchGithubUsers()
     }

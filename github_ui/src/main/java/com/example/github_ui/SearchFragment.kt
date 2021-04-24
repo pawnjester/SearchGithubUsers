@@ -110,8 +110,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-    private fun observeLoading(isLoad: Boolean?) {
-        isLoad?.let {
+    private fun observeLoading(isLoading: Boolean?) {
+        isLoading?.let {
             if (it) {
                 binding.loadMore.show(true)
             } else {

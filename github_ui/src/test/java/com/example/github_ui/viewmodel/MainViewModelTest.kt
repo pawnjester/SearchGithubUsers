@@ -2,7 +2,6 @@ package com.example.github_ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import androidx.lifecycle.SavedStateHandle
 import com.example.domain.model.GithubUser
 import com.example.domain.usecases.*
 import com.example.github_ui.MainCoroutineRule
@@ -13,7 +12,6 @@ import com.example.github_ui.mappers.GithubUsersModelMapper
 import com.example.github_ui.models.GithubUsersModel
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.times
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
@@ -43,8 +41,6 @@ class MainViewModelTest {
 
     @Mock
     lateinit var mapper: GithubUsersModelMapper
-
-    private val savedStateHandle = mockk<SavedStateHandle>(relaxed = true)
 
     @Mock
     lateinit var checkFavoriteStatusUseCase: CheckFavoriteStatusUseCase
@@ -76,7 +72,7 @@ class MainViewModelTest {
             searchUsers,
             loadMore, favoriteUserUseCase,
             deleteFavoritesUseCase, mapper,
-            savedStateHandle, checkFavoriteStatusUseCase, getUsers
+            checkFavoriteStatusUseCase, getUsers
         )
     }
 

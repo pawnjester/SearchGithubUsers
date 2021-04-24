@@ -26,7 +26,6 @@ interface NetworkModule {
                     chain.request().newBuilder()
                         .header("Content-Type", "application/json")
                         .header("Accept", "application/json")
-                        .header("Authorization", "token ${BuildConfig.API_KEY}")
                         .build()
                 )
             }

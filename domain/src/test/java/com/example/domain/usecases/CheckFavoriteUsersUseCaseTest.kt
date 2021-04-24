@@ -1,8 +1,7 @@
-package com.example.searchgithubusers.usecases
+package com.example.domain.usecases
 
-import com.example.domain.model.GithubUser
-import com.example.domain.usecases.CheckFavoriteStatusUseCase
 import com.example.domain.fakes.DummyData
+import com.example.domain.model.GithubUser
 import com.example.searchgithubusers.fakes.FakeGithubRepository
 import com.example.searchgithubusers.fakes.TestPostExecutionThread
 import com.google.common.truth.Truth
