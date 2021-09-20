@@ -1,9 +1,7 @@
 package com.example.github_ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -20,7 +18,6 @@ import com.example.github_ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,7 +35,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         setupRecyclerView()
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             binding.searchGithubEditText.textChange()
                 .debounce(1000)
                 .collect {
@@ -49,7 +46,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
 
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             binding.rvGithubUsers.observeRecycler()
                 .collect {
                     if (it) {
