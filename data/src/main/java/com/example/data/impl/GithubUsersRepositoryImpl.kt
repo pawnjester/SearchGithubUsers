@@ -19,7 +19,6 @@ class GithubUsersRepositoryImpl @Inject constructor(
     private val usersCache: GithubCache
 ) : GithubUsersRepository {
     override fun searchUsers(query: String, pageNumber: Int): Flow<GithubUserResponse> {
-
         return flow {
             emitAll(usersRemote.searchUsers(query, pageNumber).map {
                 it.items.map { entity: GithubUserEntity ->
